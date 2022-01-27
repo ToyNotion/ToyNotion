@@ -5,7 +5,7 @@ import { colors } from '../../constant/colors';
 type color = 'gray' | 'mint';
 interface LocalProps {
     text: string;
-    onClick: () => void;
+    onClick?: () => void;
     backgroundColor: color;
 }
 const DefaultButton = ({ backgroundColor, onClick, text }: LocalProps) => {
