@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import DefaultText from '../components/atoms/DefaultText';
+import Footer from '../components/molecules/Footer';
 import Header from '../components/organisms/Header';
 import JoinTemplate from '../components/templates/JoinTemplate';
 
@@ -9,14 +9,7 @@ const JoinPage = () => {
         <Container>
             <Header />
             <JoinTemplate />
-            <Footer>
-                <DefaultText
-                    text="Design by Toy Ground"
-                    color="gray"
-                    bold
-                    size="small"
-                />
-            </Footer>
+            <Footer />
         </Container>
     );
 };
@@ -30,12 +23,4 @@ const Container = styled.div`
     height: 100%;
     justify-content: space-between;
     align-items: center;
-`;
-
-const Footer = styled.div`
-    display: flex;
-    padding: 8px 10px;
-    width: 100%;
-    justify-content: center;
-    align-items: cetner;
 `;

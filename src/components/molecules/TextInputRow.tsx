@@ -77,7 +77,7 @@ const Wrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     & {
-        margin-bottom: 0.6rem;
+        margin-bottom: 1.2rem;
     }
 `;
 const OptionBox = styled.div`

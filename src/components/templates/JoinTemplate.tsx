@@ -69,6 +69,7 @@ export default JoinTemplate;
 const Container = styled.div`
     display: flex;
     width: 90%;
+    justify-content: space-between;
     flex-direction: column;
 `;
 
@@ -78,5 +79,5 @@ const SubmitBlock = styled.div`
     width: 100%;
     justify-content: space-between;
     row-gap: 10px;
-    margin: 2rem 0;
+    margin-top: 2rem;
 `;
