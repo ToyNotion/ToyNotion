@@ -26,6 +26,7 @@ const StyledBox = styled.div`
     overflow: hidden;
     background-color: ${colors.white};
     border-radius: 10px;
+    box-shadow: 4px 4px 4px 4px #696969;
     @media (max-width: 820px) {
         width: 70%;
         height: 80%;

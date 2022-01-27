@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 
-type color = 'gray' | 'mint';
+type color = 'gray' | 'mint' | 'violet';
 interface LocalProps {
     text: string;
     onClick?: () => void;

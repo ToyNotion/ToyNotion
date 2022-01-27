@@ -9,5 +9,5 @@ export const colors: colorsType = {
     mint: '#0D98BA',
     black: '#36454F',
     red: '#FF5349',
-    gray: '#d4d4d4',
+    gray: '#e3e3e3',
 };

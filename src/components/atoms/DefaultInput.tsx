@@ -39,6 +39,7 @@ const StyledInput = styled.input<{ type: HTMLInputTypeAttribute }>`
     padding: 10px 8px;
     border: 1px solid ${colors.gray};
     border-radius: 4px;
+    background: transparent;
     &:focus {
         border: 2px solid ${colors.violet};
     }

@@ -92,7 +92,7 @@ const StyledLabel = styled.label<{ checked?: string; item?: string }>`
     align-items: center;
     border-radius: 2rem;
     background-color: ${(props) =>
-        props.checked === props.item ? colors.mint : colors.gray};
+        props.checked === props.item ? colors.violet : colors.gray};
     & > span {
         color: ${(props) =>
             props.checked === props.item ? colors.white : colors.black};

@@ -10,57 +10,57 @@ const JoinInputRows = ({ onChanger, state }: JoininputRowsProps) => {
         <>
             <TextInputRow
                 rowTitle="이메일"
-                name="email"
+                name="userId"
                 inputType={'email'}
-                inputValue={state.email}
+                inputValue={state.userId}
                 onChange={onChanger}
                 placeholder="이메일을 입력해주세요"
             />
             <TextInputRow
                 rowTitle="비밀번호"
                 name="password"
-                inputType={'password'}
-                inputValue={state.password}
+                inputType={'userPwd'}
+                inputValue={state.userPwd}
                 onChange={onChanger}
                 placeholder="비밀번호를 입력해주세요"
             />
             <TextInputRow
                 rowTitle="비밀번호 확인"
                 name="passwordCheck"
-                inputType={'password'}
-                inputValue={state.passwordCheck}
+                inputType={'userPwdCheck'}
+                inputValue={state.userPwdCheck}
                 onChange={onChanger}
                 placeholder="비밀번호를 다시 입력해주세요"
             />
             <TextInputRow
                 rowTitle="이름"
-                name="name"
+                name="userNm"
                 inputType={'text'}
-                inputValue={state.name}
+                inputValue={state.userNm}
                 onChange={onChanger}
                 placeholder="이름을 입력해주세요"
             />
             <TextInputRow
                 rowTitle="성별"
-                name="gender"
+                name="userSex"
                 inputType={'radio'}
                 checkOptions={['남성', '여성']}
-                checked={state.gender}
+                checked={state.userSex}
                 onChange={onChanger}
             />
             <TextInputRow
                 rowTitle="휴대폰 번호"
-                name="phone"
+                name="userHp"
                 inputType={'tel'}
-                inputValue={state.phone}
+                inputValue={state.userHp}
                 onChange={onChanger}
                 placeholder="휴대폰 번호를 입력해주세요"
             />
             <TextInputRow
                 rowTitle="생년월일"
-                name="birth"
+                name="userBirth"
                 inputType={'date'}
-                inputValue={state.birth}
+                inputValue={state.userBirth}
                 onChange={onChanger}
             />
         </>

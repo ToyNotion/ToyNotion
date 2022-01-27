@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { JoinTypes } from '../../types/joinTypes';
 import DefaultButton from '../atoms/DefaultButton';
 import JoinInputRows from '../organisms/JoinInputRows';
 
 const JoinTemplate = () => {
+    const navigate = useNavigate();
     const [state, setState] = useState<JoinTypes>({
-        email: '',
-        password: '',
-        passwordCheck: '',
-        name: '',
-        gender: '여성',
-        phone: '',
-        birth: '',
+        userId: '',
+        userPwd: '',
+        userPwdCheck: '',
+        userNm: '',
+        userSex: '여성',
+        userHp: '',
+        userBirth: '',
     });
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -31,10 +33,7 @@ const JoinTemplate = () => {
     };
     const onSubmit = () => {
         alert('onSubmit');
-        const didCorrectPW = onCheckPassword(
-            state.password,
-            state.passwordCheck,
-        );
+        const didCorrectPW = onCheckPassword(state.userPwd, state.userPwdCheck);
 
         if (didCorrectPW && !onCheckNullData(state)) {
             console.log('submit api 보내기');
@@ -43,7 +42,8 @@ const JoinTemplate = () => {
         }
     };
     const onCancle = () => {
-        alert('onCancle');
+        navigate('/');
+        // window.location.href = '/';
     };
     return (
         <Container>
@@ -51,7 +51,7 @@ const JoinTemplate = () => {
             <SubmitBlock>
                 <DefaultButton
                     text="가입하기"
-                    backgroundColor="mint"
+                    backgroundColor="violet"
                     onClick={onSubmit}
                 />
                 <DefaultButton
