@@ -1,16 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import styled from 'styled-components';
-import DefalutText from './components/atoms/DefalutText';
+import DefaultButton from './components/atoms/DefaultButton';
+import DefaultInput from './components/atoms/DefaultInput';
+import TextInputRow from './components/molecules/TextInputRow';
 
 function App() {
     return (
         <Container>
-            <DefalutText text="합의금은 두둑히" size="large" bold={true} />
-            <DefalutText text="합의금은 두둑히" size="large" bold={false} />
-            <DefalutText text="합의금은 두둑히" size="medium" />
-            <DefalutText text="합의금은 두둑히" size="small" />
+            <TextInputRow />
         </Container>
     );
 }

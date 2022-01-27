@@ -2,17 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 
-type sizes = 'small' | 'medium' | 'large';
-type colors = 'white' | 'navy' | 'black' | 'red';
+type SizesType = 'small' | 'medium' | 'large';
+type ColorsType = 'white' | 'navy' | 'black' | 'red';
 
 interface LocalProps {
     text: string;
     bold?: boolean;
-    size?: sizes;
-    color?: colors;
+    size?: SizesType;
+    color?: ColorsType;
 }
 
-const DefalutText = ({ text, bold, color, size }: LocalProps) => {
+const DefaultText = ({ text, bold, color, size }: LocalProps) => {
     return (
         <StyledSpan
             selectColor={color || 'black'}
@@ -24,13 +24,16 @@ const DefalutText = ({ text, bold, color, size }: LocalProps) => {
     );
 };
 
-export default DefalutText;
+export default DefaultText;
 
 const StyledSpan = styled.span<{
-    selectColor: colors;
-    selectSize: sizes;
+    selectColor: ColorsType;
+    selectSize: SizesType;
     isBold: boolean;
 }>`
+    display: flex;
+    align-items: center;
+
     color: ${(props) => colors[props.selectColor]};
     font-size: ${(props) =>
         props.selectSize === 'small'
