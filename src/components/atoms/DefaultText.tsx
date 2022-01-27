@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 
 type SizesType = 'small' | 'medium' | 'large';
-type ColorsType = 'white' | 'navy' | 'black' | 'red';
+type ColorsType = 'white' | 'navy' | 'black' | 'red' | 'gray';
 
 interface LocalProps {
     text: string;

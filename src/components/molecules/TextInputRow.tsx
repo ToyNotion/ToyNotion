@@ -28,24 +28,41 @@ const TextInputRow = ({
     return (
         <Wrapper>
             <DefaultText text={rowTitle} />
-            <DefaultInput
-                type={inputType}
-                value={inputValue}
-                name={name}
-                placeholder={placeholder}
-                onChange={onChange}
-            />
-            {checkOptions && (
+            {!checkOptions ? (
+                <DefaultInput
+                    type={inputType}
+                    value={inputValue}
+                    name={name}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                />
+            ) : (
                 <OptionBox>
-                    {checkOptions?.map((item) => (
-                        <StyledLabel
-                            htmlFor={name}
-                            checked={checked}
-                            item={item}
-                        >
-                            item
-                        </StyledLabel>
-                    ))}
+                    {checkOptions?.map((item, index) => {
+                        return (
+                            <React.Fragment key={item}>
+                                <StyledLabel
+                                    htmlFor={item}
+                                    checked={checked}
+                                    item={item}
+                                >
+                                    <DefaultText
+                                        text={item}
+                                        size="small"
+                                        bold={true}
+                                    />
+                                </StyledLabel>
+                                <RadioInput
+                                    type={'radio'}
+                                    name={name}
+                                    id={item}
+                                    value={item}
+                                    checked={checked === item ? true : false}
+                                    onChange={onChange}
+                                />
+                            </React.Fragment>
+                        );
+                    })}
                 </OptionBox>
             )}
         </Wrapper>
@@ -57,9 +74,7 @@ export default TextInputRow;
 const Wrapper = styled.div`
     display: flex;
     height: 2rem;
-    padding: 0 2rem;
     flex-direction: row;
-    /* column-gap: 2rem; */
     justify-content: space-between;
     & {
         margin-bottom: 0.6rem;
@@ -68,18 +83,24 @@ const Wrapper = styled.div`
 const OptionBox = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: center;
 `;
 
 const StyledLabel = styled.label<{ checked?: string; item?: string }>`
     display: flex;
-    padding: 0 1.6rem;
+    padding: 0 2rem;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 2rem;
     background-color: ${(props) =>
         props.checked === props.item ? colors.mint : colors.gray};
-    color: ${(props) =>
-        props.checked === props.item ? colors.white : colors.black};
-    & + & {
-        margin-left: 0.8rem;
+    & > span {
+        color: ${(props) =>
+            props.checked === props.item ? colors.white : colors.black};
     }
+    margin: 0 0.2rem;
+    cursor: pointer;
+`;
+
+const RadioInput = styled.input`
+    display: none;
 `;

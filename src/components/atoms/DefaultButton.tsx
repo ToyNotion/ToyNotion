@@ -20,7 +20,8 @@ export default DefaultButton;
 
 const StyledBox = styled.div<{ backgroundColor: color }>`
     display: flex;
-    width: 100%;
+    /* width: 100%; */
+    flex: 1;
     justify-content: center;
     align-items: center;
     padding: 10px 1rem;
@@ -28,4 +29,5 @@ const StyledBox = styled.div<{ backgroundColor: color }>`
     background-color: ${(props) => colors[props.backgroundColor]};
     color: ${(props) =>
         props.backgroundColor === 'gray' ? colors.black : colors.white};
+    cursor: pointer;
 `;

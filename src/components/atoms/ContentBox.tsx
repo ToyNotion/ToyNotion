@@ -23,6 +23,7 @@ const Container = styled.div`
 const StyledBox = styled.div`
     width: 375px;
     height: 667px;
+    overflow: hidden;
     background-color: ${colors.white};
     border-radius: 10px;
     @media (max-width: 820px) {
