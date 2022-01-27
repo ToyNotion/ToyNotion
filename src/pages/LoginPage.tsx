@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Footer from '../components/molecules/Footer';
 import LoginLogo from '../components/molecules/LoginLogo';
 import LoginTemplate from '../components/templates/LoginTemplate';
-import { colors } from '../constant/colors';
 
 const LoginPage = () => {
     return (

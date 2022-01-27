@@ -46,7 +46,7 @@ const Container = styled.div`
     justify-content: flex-start;
     height: 100%;
     padding: 4rem 0;
-    width: 80%;
+    width: 90%;
 `;
 
 const LoginBlock = styled.div`

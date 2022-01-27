@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 
-const ContentBox: React.FC = ({ children }) => {
+const Layout: React.FC = ({ children }) => {
     return (
         <Container>
             <StyledBox>{children}</StyledBox>
@@ -10,7 +10,7 @@ const ContentBox: React.FC = ({ children }) => {
     );
 };
 
-export default ContentBox;
+export default Layout;
 
 const Container = styled.div`
     display: flex;
@@ -19,6 +19,9 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     background-color: ${colors.gray};
+    @media (max-width: 414px) {
+        background-color: black;
+    }
 `;
 const StyledBox = styled.div`
     width: 375px;
