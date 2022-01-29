@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useRef } from 'react';
 import { JoinTypes } from '../../types/joinTypes';
 import TextInputRow from '../molecules/TextInputRow';
 interface JoininputRowsProps {
@@ -15,6 +15,8 @@ const JoinInputRows = ({
     isPossible,
     setIsPossible,
 }: JoininputRowsProps) => {
+    const ref = useRef<HTMLInputElement>();
+
     return (
         <>
             <TextInputRow

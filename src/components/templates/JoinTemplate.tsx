@@ -66,8 +66,8 @@ const JoinTemplate = () => {
 
     const onCheckId = async () => {
         //TODO: 영문 조건식 추가 , email 형식 조건식 추가, 결과값에 따라 focusing 추가
-        if (state.userId === '') alert('id를 입력해주세요');
-        else
+        if (state.userId === '') {
+        } else
             try {
                 const response = await client.post('user/findId', {
                     userId: state.userId,
@@ -75,7 +75,12 @@ const JoinTemplate = () => {
                 const data = response.data;
                 const success = data.success;
                 // if (success) setIsPossible(() => true);
-
+                if (!success) {
+                    setState({ ...state, userId: '' });
+                    // setIsPossible(() => false);
+                } else {
+                    setIsPossible(() => true);
+                }
                 // alert(data.message);
                 // console.log(response);
             } catch (e) {

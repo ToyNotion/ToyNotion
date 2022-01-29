@@ -17,6 +17,7 @@ interface TextInputRowProps {
     onCheckId?: () => Promise<void>;
     isPossible?: boolean;
     setIsPossible?: React.Dispatch<SetStateAction<boolean>>;
+    ref?: React.RefObject<HTMLInputElement>;
 }
 const TextInputRow = ({
     inputType,
@@ -29,7 +30,6 @@ const TextInputRow = ({
     checkOptions,
     onCheckId,
     isPossible,
-    setIsPossible,
 }: TextInputRowProps) => {
     return (
         <Wrapper>
@@ -43,7 +43,6 @@ const TextInputRow = ({
                     onChange={onChange}
                     onBlur={onCheckId}
                     isPossible={isPossible}
-                    setIsPossible={setIsPossible}
                 />
             ) : (
                 <OptionBox>

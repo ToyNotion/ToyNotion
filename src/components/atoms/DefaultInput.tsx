@@ -1,9 +1,7 @@
 import React, {
     HTMLInputTypeAttribute,
-    InputHTMLAttributes,
     SetStateAction,
     useEffect,
-    useRef,
 } from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
@@ -18,7 +16,6 @@ interface LocalProps {
     checked?: boolean;
     onBlur?: () => Promise<void>;
     isPossible?: boolean;
-    setIsPossible?: React.Dispatch<SetStateAction<boolean>>;
 }
 const DefaultInput = ({
     type,
@@ -28,14 +25,7 @@ const DefaultInput = ({
     placeholder,
     onBlur,
     isPossible,
-    setIsPossible,
 }: LocalProps) => {
-    const inputRef = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-        // if (isPossible) inputRef?.current?.focus();
-        // if (setIsPossible) setIsPossible(() => false);
-    }, [isPossible]);
-
     return (
         <StyledInput
             type={type}
@@ -45,7 +35,6 @@ const DefaultInput = ({
             placeholder={placeholder}
             onBlur={onBlur}
             isPossible={isPossible}
-            ref={inputRef}
         />
     );
 };
@@ -67,5 +56,5 @@ const StyledInput = styled.input<{
     &:focus {
         border: 2px solid ${colors.violet};
     }
-    color: ${(props) => props.isPossible && 'red'};
+    /* color: ${(props) => (props.isPossible ? 'black' : 'red')}; */
 `;
