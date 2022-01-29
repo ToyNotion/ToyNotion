@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { SetStateAction } from 'react';
 import { JoinTypes } from '../../types/joinTypes';
 import TextInputRow from '../molecules/TextInputRow';
 interface JoininputRowsProps {
     state: JoinTypes;
     onChanger: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onCheckId: () => Promise<void>;
+    isPossible: boolean;
+    setIsPossible?: React.Dispatch<SetStateAction<boolean>>;
 }
-const JoinInputRows = ({ onChanger, state, onCheckId }: JoininputRowsProps) => {
+const JoinInputRows = ({
+    onChanger,
+    state,
+    onCheckId,
+    isPossible,
+    setIsPossible,
+}: JoininputRowsProps) => {
     return (
         <>
             <TextInputRow
@@ -17,19 +25,21 @@ const JoinInputRows = ({ onChanger, state, onCheckId }: JoininputRowsProps) => {
                 onChange={onChanger}
                 onCheckId={onCheckId}
                 placeholder="이메일을 입력해주세요"
+                isPossible={isPossible}
+                setIsPossible={setIsPossible}
             />
             <TextInputRow
                 rowTitle="비밀번호"
-                name="password"
-                inputType={'userPwd'}
+                name="userPwd"
+                inputType={'password'}
                 inputValue={state.userPwd}
                 onChange={onChanger}
                 placeholder="비밀번호를 입력해주세요"
             />
             <TextInputRow
                 rowTitle="비밀번호 확인"
-                name="passwordCheck"
-                inputType={'userPwdCheck'}
+                name="userPwdCheck"
+                inputType={'password'}
                 inputValue={state.userPwdCheck}
                 onChange={onChanger}
                 placeholder="비밀번호를 다시 입력해주세요"

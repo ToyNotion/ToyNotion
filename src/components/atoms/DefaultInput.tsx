@@ -1,4 +1,10 @@
-import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
+import React, {
+    HTMLInputTypeAttribute,
+    InputHTMLAttributes,
+    SetStateAction,
+    useEffect,
+    useRef,
+} from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import { InputValueTypes } from '../../types/defaultTypes';
@@ -11,6 +17,8 @@ interface LocalProps {
     name?: string;
     checked?: boolean;
     onBlur?: () => Promise<void>;
+    isPossible?: boolean;
+    setIsPossible?: React.Dispatch<SetStateAction<boolean>>;
 }
 const DefaultInput = ({
     type,
@@ -19,7 +27,15 @@ const DefaultInput = ({
     name,
     placeholder,
     onBlur,
+    isPossible,
+    setIsPossible,
 }: LocalProps) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+        // if (isPossible) inputRef?.current?.focus();
+        // if (setIsPossible) setIsPossible(() => false);
+    }, [isPossible]);
+
     return (
         <StyledInput
             type={type}
@@ -28,13 +44,18 @@ const DefaultInput = ({
             onChange={onChange}
             placeholder={placeholder}
             onBlur={onBlur}
+            isPossible={isPossible}
+            ref={inputRef}
         />
     );
 };
 
 export default DefaultInput;
 
-const StyledInput = styled.input<{ type: HTMLInputTypeAttribute }>`
+const StyledInput = styled.input<{
+    type: HTMLInputTypeAttribute;
+    isPossible?: boolean;
+}>`
     display: ${(props) => (props.type === 'radio' ? 'none' : 'flex')};
     outline: none;
     width: 10rem;
@@ -46,4 +67,5 @@ const StyledInput = styled.input<{ type: HTMLInputTypeAttribute }>`
     &:focus {
         border: 2px solid ${colors.violet};
     }
+    color: ${(props) => props.isPossible && 'red'};
 `;

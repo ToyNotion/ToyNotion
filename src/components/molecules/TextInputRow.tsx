@@ -1,4 +1,4 @@
-import React, { HTMLInputTypeAttribute } from 'react';
+import React, { HTMLInputTypeAttribute, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import { InputValueTypes } from '../../types/defaultTypes';
@@ -15,6 +15,8 @@ interface TextInputRowProps {
     checked?: string;
     checkOptions?: string[];
     onCheckId?: () => Promise<void>;
+    isPossible?: boolean;
+    setIsPossible?: React.Dispatch<SetStateAction<boolean>>;
 }
 const TextInputRow = ({
     inputType,
@@ -26,6 +28,8 @@ const TextInputRow = ({
     checked,
     checkOptions,
     onCheckId,
+    isPossible,
+    setIsPossible,
 }: TextInputRowProps) => {
     return (
         <Wrapper>
@@ -38,6 +42,8 @@ const TextInputRow = ({
                     placeholder={placeholder}
                     onChange={onChange}
                     onBlur={onCheckId}
+                    isPossible={isPossible}
+                    setIsPossible={setIsPossible}
                 />
             ) : (
                 <OptionBox>

@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { Stats } from 'fs';
+import moment from 'moment';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -17,6 +20,8 @@ const JoinTemplate = () => {
         userHp: '',
         userBirth: '',
     });
+
+    const [isPossible, setIsPossible] = useState<boolean>(false);
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.stopPropagation();
@@ -32,12 +37,24 @@ const JoinTemplate = () => {
     const onCheckPassword = (pw1: string, pw2: string) => {
         return pw1.trim() === pw2.trim();
     };
-    const onSubmit = () => {
+    const onSubmit = async () => {
         alert('onSubmit');
         const didCorrectPW = onCheckPassword(state.userPwd, state.userPwdCheck);
 
         if (didCorrectPW && !onCheckNullData(state)) {
-            console.log('submit api 보내기');
+            let sendForm = {
+                userId: state.userId,
+                userPwd: state.userPwd,
+                userNm: state.userNm,
+                userSex: state.userSex === '남성' ? '1' : '2',
+                userHp: state.userHp,
+                userBirth: moment(state.userBirth).format('YYMMDD'),
+            };
+
+            try {
+                const response = await client.post('user/signUp', sendForm);
+                console.log('response', response);
+            } catch (error) {}
         } else {
             console.log('보내면 안돼 !');
         }
@@ -46,21 +63,33 @@ const JoinTemplate = () => {
         navigate('/');
         // window.location.href = '/';
     };
+
     const onCheckId = async () => {
-        try {
-            const response = await client.post('user/findId', {
-                userId: state.userId,
-            });
-            console.log(response);
-        } catch (e) {
-            console.log(e);
-        }
+        //TODO: 영문 조건식 추가 , email 형식 조건식 추가, 결과값에 따라 focusing 추가
+        if (state.userId === '') alert('id를 입력해주세요');
+        else
+            try {
+                const response = await client.post('user/findId', {
+                    userId: state.userId,
+                });
+                const data = response.data;
+                const success = data.success;
+                // if (success) setIsPossible(() => true);
+
+                // alert(data.message);
+                // console.log(response);
+            } catch (e) {
+                console.log(e);
+            }
     };
+
     return (
         <Container>
             <JoinInputRows
                 onChanger={onChanger}
                 state={state}
+                isPossible={isPossible}
+                setIsPossible={setIsPossible}
                 onCheckId={onCheckId}
             />
             <SubmitBlock>
