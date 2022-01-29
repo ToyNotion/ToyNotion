@@ -14,6 +14,7 @@ interface TextInputRowProps {
     name?: string;
     checked?: string;
     checkOptions?: string[];
+    onCheckId?: () => Promise<void>;
 }
 const TextInputRow = ({
     inputType,
@@ -24,6 +25,7 @@ const TextInputRow = ({
     name,
     checked,
     checkOptions,
+    onCheckId,
 }: TextInputRowProps) => {
     return (
         <Wrapper>
@@ -35,6 +37,7 @@ const TextInputRow = ({
                     name={name}
                     placeholder={placeholder}
                     onChange={onChange}
+                    onBlur={onCheckId}
                 />
             ) : (
                 <OptionBox>

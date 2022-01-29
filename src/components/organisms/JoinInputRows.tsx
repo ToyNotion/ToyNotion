@@ -4,8 +4,9 @@ import TextInputRow from '../molecules/TextInputRow';
 interface JoininputRowsProps {
     state: JoinTypes;
     onChanger: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onCheckId: () => Promise<void>;
 }
-const JoinInputRows = ({ onChanger, state }: JoininputRowsProps) => {
+const JoinInputRows = ({ onChanger, state, onCheckId }: JoininputRowsProps) => {
     return (
         <>
             <TextInputRow
@@ -14,6 +15,7 @@ const JoinInputRows = ({ onChanger, state }: JoininputRowsProps) => {
                 inputType={'email'}
                 inputValue={state.userId}
                 onChange={onChanger}
+                onCheckId={onCheckId}
                 placeholder="이메일을 입력해주세요"
             />
             <TextInputRow

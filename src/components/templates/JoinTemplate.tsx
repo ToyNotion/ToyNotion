@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { client } from '../../api';
 import { JoinTypes } from '../../types/joinTypes';
 import DefaultButton from '../atoms/DefaultButton';
 import JoinInputRows from '../organisms/JoinInputRows';
@@ -45,9 +46,23 @@ const JoinTemplate = () => {
         navigate('/');
         // window.location.href = '/';
     };
+    const onCheckId = async () => {
+        try {
+            const response = await client.post('user/findId', {
+                userId: state.userId,
+            });
+            console.log(response);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     return (
         <Container>
-            <JoinInputRows onChanger={onChanger} state={state} />
+            <JoinInputRows
+                onChanger={onChanger}
+                state={state}
+                onCheckId={onCheckId}
+            />
             <SubmitBlock>
                 <DefaultButton
                     text="가입하기"

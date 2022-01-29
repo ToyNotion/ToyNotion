@@ -10,6 +10,7 @@ interface LocalProps {
     placeholder?: string;
     name?: string;
     checked?: boolean;
+    onBlur?: () => Promise<void>;
 }
 const DefaultInput = ({
     type,
@@ -17,6 +18,7 @@ const DefaultInput = ({
     value,
     name,
     placeholder,
+    onBlur,
 }: LocalProps) => {
     return (
         <StyledInput
@@ -25,6 +27,7 @@ const DefaultInput = ({
             value={value}
             onChange={onChange}
             placeholder={placeholder}
+            onBlur={onBlur}
         />
     );
 };
