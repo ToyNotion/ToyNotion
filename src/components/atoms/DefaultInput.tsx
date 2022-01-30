@@ -39,6 +39,7 @@ const DefaultInput = ({
             placeholder={placeholder}
             onBlur={onBlur}
             ref={inputRef}
+            maxLength={name === 'userHp' ? 13 : 30}
         />
     );
 };

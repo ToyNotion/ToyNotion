@@ -41,7 +41,7 @@ const TextInputRow = ({
                 text={rowTitle}
                 color={
                     name === 'userId'
-                        ? !isPossible
+                        ? isPossible === false
                             ? 'red'
                             : 'black'
                         : 'black'
@@ -109,7 +109,7 @@ const OptionBox = styled.div`
 
 const StyledLabel = styled.label<{ checked?: string; item?: string }>`
     display: flex;
-    padding: 0 2rem;
+    padding: 1rem 2rem;
     align-items: center;
     border-radius: 2rem;
     background-color: ${(props) =>

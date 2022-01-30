@@ -43,7 +43,7 @@ export default LoginTemplate;
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     height: 100%;
     padding: 4rem 0;
     width: 90%;

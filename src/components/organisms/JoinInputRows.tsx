@@ -17,8 +17,7 @@ const JoinInputRows = ({
     setIsPossible,
     inputRef,
 }: JoininputRowsProps) => {
-    // const ref = useRef<HTMLInputElement>();
-
+    console.log(state.userHp);
     return (
         <>
             <TextInputRow
@@ -69,9 +68,12 @@ const JoinInputRows = ({
                 rowTitle="휴대폰 번호"
                 name="userHp"
                 inputType={'tel'}
-                inputValue={state.userHp}
+                inputValue={state.userHp.replace(
+                    /^(\d{3})(\d{4})(\d{4})$/,
+                    `$1-$2-$3`,
+                )}
                 onChange={onChanger}
-                placeholder="휴대폰 번호를 입력해주세요"
+                placeholder="번호만 입력해주세요"
             />
             <TextInputRow
                 rowTitle="생년월일"

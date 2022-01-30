@@ -1,35 +1,51 @@
 import axios from 'axios';
 import { Stats } from 'fs';
 import moment from 'moment';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { client } from '../../api';
 import { JoinTypes } from '../../types/joinTypes';
+import { insertOnlyNumber, validateEmail } from '../../utils/validata';
 import DefaultButton from '../atoms/DefaultButton';
 import DefaultText from '../atoms/DefaultText';
 import JoinInputRows from '../organisms/JoinInputRows';
-
+const initForm = {
+    userId: '',
+    userPwd: '',
+    userPwdCheck: '',
+    userNm: '',
+    userSex: '여성',
+    userHp: '',
+    userBirth: '',
+};
 const JoinTemplate = () => {
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
-    const [state, setState] = useState<JoinTypes>({
-        userId: '',
-        userPwd: '',
-        userPwdCheck: '',
-        userNm: '',
-        userSex: '여성',
-        userHp: '',
-        userBirth: '',
-    });
+    const [state, setState] = useState<JoinTypes>(initForm);
+    const [print, setPrint] = useState<string>('');
 
-    const [isPossible, setIsPossible] = useState<boolean>(false);
+    useEffect(() => {
+        return () => {
+            setState(() => initForm);
+            setIsPossible(() => true);
+        };
+    }, []);
+
+    const [isPossible, setIsPossible] = useState<boolean>(true);
 
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.stopPropagation();
         const { name, value } = e.target;
-        setState({ ...state, [name]: value });
+        if (name === 'userHp') {
+            setState({
+                ...state,
+                [name]: insertOnlyNumber(value),
+            });
+        } else {
+            setState({ ...state, [name]: value });
+        }
     };
 
     const onCheckNullData = (state: JoinTypes) => {
@@ -44,9 +60,10 @@ const JoinTemplate = () => {
     };
 
     const onSubmit = async () => {
-        alert('onSubmit');
+        //입력한 비밀번호가 서로 맞는지 체크
         const didCorrectPW = onCheckPassword(state.userPwd, state.userPwdCheck);
 
+        //비밀번호와 비밀번호 확인이 맞다면 api 요청
         if (didCorrectPW && !onCheckNullData(state)) {
             let sendForm = {
                 userId: state.userId,
@@ -58,48 +75,53 @@ const JoinTemplate = () => {
             };
 
             try {
-                const response = await client.post('user/signUp', sendForm);
-                console.log('response', response);
+                console.log(sendForm);
+                // const response = await client.post('user/signUp', sendForm);
+                // console.log('response', response);
             } catch (error) {}
         } else {
-            console.log('보내면 안돼 !');
+            alert('입력하신 데이터를 확인해주세요.');
         }
     };
     const onCancle = () => {
         navigate('/');
-        // window.location.href = '/';
     };
 
     const onCheckId = async () => {
-        //TODO: 영문 조건식 추가 , email 형식 조건식 추가, 결과값에 따라 focusing 추가
+        //TODO: 영문 조건식 추가 , email 형식 조건식 추가
         if (state.userId === '') {
-        } else
-            try {
-                const response = await client.post('user/findId', {
-                    userId: state.userId,
-                });
-                const data = response.data;
-                const success = data.success;
-                // if (success) setIsPossible(() => true);
-                if (success === 'true') {
-                    setIsPossible(() => true);
-                } else {
-                    setIsPossible(() => false);
-                    // setState({ ...state, userId: '' });
-                    inputRef?.current?.focus();
+        } else {
+            if (validateEmail(state.userId)) {
+                try {
+                    const response = await client.post('user/findId', {
+                        userId: state.userId,
+                    });
+                    const data = response.data;
+                    const success = data.success;
+
+                    if (success === 'true') {
+                        setIsPossible(() => true);
+                    } else {
+                        setPrint(() => data.message);
+                        setIsPossible(() => false);
+                        inputRef?.current?.focus();
+                    }
+                } catch (e) {
+                    console.log(e);
                 }
-                // alert(data.message);
-                // console.log(response);
-            } catch (e) {
-                console.log(e);
+            } else {
+                setIsPossible(() => false);
+                setPrint(() => '이메일 형식으로 입력해주세요.');
+                inputRef?.current?.focus();
             }
+        }
     };
 
     return (
         <Container>
-            {!isPossible && (
+            {!isPossible && print !== '' && (
                 <Wrapper>
-                    <DefaultText text={'사용중인 ID 입니다'} color="red" />
+                    <DefaultText text={print} color="red" />
                 </Wrapper>
             )}
             <JoinInputRows
@@ -131,7 +153,8 @@ export default JoinTemplate;
 const Container = styled.div`
     display: flex;
     width: 90%;
-    justify-content: flex-start;
+    height: 70%;
+    justify-content: space-around;
     flex-direction: column;
 `;
 
@@ -148,5 +171,6 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-bottom: 2rem;
+    padding: 2rem;
+    /* background-color: bluea; */
 `;
