@@ -1,8 +1,4 @@
-import React, {
-    HTMLInputTypeAttribute,
-    SetStateAction,
-    useEffect,
-} from 'react';
+import React, { HTMLInputTypeAttribute, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import { InputValueTypes } from '../../types/defaultTypes';

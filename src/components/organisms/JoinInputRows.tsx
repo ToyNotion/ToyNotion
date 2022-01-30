@@ -1,4 +1,4 @@
-import React, { SetStateAction, useRef } from 'react';
+import React, { SetStateAction } from 'react';
 import { JoinTypes } from '../../types/joinTypes';
 import TextInputRow from '../molecules/TextInputRow';
 interface JoininputRowsProps {

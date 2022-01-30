@@ -4,6 +4,7 @@ export function validateEmail(email: string) {
     );
     return emailReg.test(email);
 }
+
 export function insertOnlyNumber(number: string) {
     return number.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 }

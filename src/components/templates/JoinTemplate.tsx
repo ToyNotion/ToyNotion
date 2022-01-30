@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { Stats } from 'fs';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -38,6 +36,26 @@ const JoinTemplate = () => {
         e.preventDefault();
         e.stopPropagation();
         const { name, value } = e.target;
+        console.log(value);
+        if (name === 'userBirth') {
+            let tempYear = value.split('-');
+            let applyYear =
+                Number(tempYear[0]) > 1900 ? Number(tempYear[0]) : 1900;
+            tempYear[0] = JSON.stringify(applyYear);
+            // const funcString = (array: string[]) => {
+            //     let temp = '';
+            //     array.map(
+            //         (item, index) =>
+            //             (temp += `${item}${index !== 2 ? '-' : ''}`),
+            //     );
+            //     return temp;
+            // };
+            setState({
+                ...state,
+                [name]: `${tempYear[0]}-${tempYear[1]}-${tempYear[2]}`,
+            });
+            // console.log(name, funcString(tempYear));
+        }
         if (name === 'userHp') {
             setState({
                 ...state,
