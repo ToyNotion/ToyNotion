@@ -1,16 +1,18 @@
 import axios from 'axios';
 import { Stats } from 'fs';
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { client } from '../../api';
 import { JoinTypes } from '../../types/joinTypes';
 import DefaultButton from '../atoms/DefaultButton';
+import DefaultText from '../atoms/DefaultText';
 import JoinInputRows from '../organisms/JoinInputRows';
 
 const JoinTemplate = () => {
     const navigate = useNavigate();
+    const inputRef = useRef<HTMLInputElement>(null);
     const [state, setState] = useState<JoinTypes>({
         userId: '',
         userPwd: '',
@@ -22,21 +24,25 @@ const JoinTemplate = () => {
     });
 
     const [isPossible, setIsPossible] = useState<boolean>(false);
+
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.stopPropagation();
         const { name, value } = e.target;
         setState({ ...state, [name]: value });
     };
+
     const onCheckNullData = (state: JoinTypes) => {
         const temp = Object.entries(state).map((item) =>
             item[1] === '' ? false : true,
         );
         return temp.includes(false);
     };
+
     const onCheckPassword = (pw1: string, pw2: string) => {
         return pw1.trim() === pw2.trim();
     };
+
     const onSubmit = async () => {
         alert('onSubmit');
         const didCorrectPW = onCheckPassword(state.userPwd, state.userPwdCheck);
@@ -75,11 +81,12 @@ const JoinTemplate = () => {
                 const data = response.data;
                 const success = data.success;
                 // if (success) setIsPossible(() => true);
-                if (!success) {
-                    setState({ ...state, userId: '' });
-                    // setIsPossible(() => false);
-                } else {
+                if (success === 'true') {
                     setIsPossible(() => true);
+                } else {
+                    setIsPossible(() => false);
+                    // setState({ ...state, userId: '' });
+                    inputRef?.current?.focus();
                 }
                 // alert(data.message);
                 // console.log(response);
@@ -90,12 +97,18 @@ const JoinTemplate = () => {
 
     return (
         <Container>
+            {!isPossible && (
+                <Wrapper>
+                    <DefaultText text={'사용중인 ID 입니다'} color="red" />
+                </Wrapper>
+            )}
             <JoinInputRows
                 onChanger={onChanger}
                 state={state}
                 isPossible={isPossible}
                 setIsPossible={setIsPossible}
                 onCheckId={onCheckId}
+                inputRef={inputRef}
             />
             <SubmitBlock>
                 <DefaultButton
@@ -118,7 +131,7 @@ export default JoinTemplate;
 const Container = styled.div`
     display: flex;
     width: 90%;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: column;
 `;
 
@@ -129,4 +142,11 @@ const SubmitBlock = styled.div`
     justify-content: space-between;
     row-gap: 10px;
     margin-top: 2rem;
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-bottom: 2rem;
 `;

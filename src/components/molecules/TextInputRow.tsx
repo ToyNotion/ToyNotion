@@ -1,8 +1,11 @@
-import React, { HTMLInputTypeAttribute, SetStateAction } from 'react';
+import React, {
+    HTMLInputTypeAttribute,
+    SetStateAction,
+    useEffect,
+} from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import { InputValueTypes } from '../../types/defaultTypes';
-import DefaultButton from '../atoms/DefaultButton';
 import DefaultInput from '../atoms/DefaultInput';
 import DefaultText from '../atoms/DefaultText';
 interface TextInputRowProps {
@@ -17,7 +20,7 @@ interface TextInputRowProps {
     onCheckId?: () => Promise<void>;
     isPossible?: boolean;
     setIsPossible?: React.Dispatch<SetStateAction<boolean>>;
-    ref?: React.RefObject<HTMLInputElement>;
+    inputRef?: React.RefObject<HTMLInputElement>;
 }
 const TextInputRow = ({
     inputType,
@@ -30,10 +33,20 @@ const TextInputRow = ({
     checkOptions,
     onCheckId,
     isPossible,
+    inputRef,
 }: TextInputRowProps) => {
     return (
         <Wrapper>
-            <DefaultText text={rowTitle} />
+            <DefaultText
+                text={rowTitle}
+                color={
+                    name === 'userId'
+                        ? !isPossible
+                            ? 'red'
+                            : 'black'
+                        : 'black'
+                }
+            />
             {!checkOptions ? (
                 <DefaultInput
                     type={inputType}
@@ -42,7 +55,7 @@ const TextInputRow = ({
                     placeholder={placeholder}
                     onChange={onChange}
                     onBlur={onCheckId}
-                    isPossible={isPossible}
+                    inputRef={inputRef}
                 />
             ) : (
                 <OptionBox>

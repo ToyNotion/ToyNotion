@@ -7,6 +7,7 @@ interface JoininputRowsProps {
     onCheckId: () => Promise<void>;
     isPossible: boolean;
     setIsPossible?: React.Dispatch<SetStateAction<boolean>>;
+    inputRef?: React.RefObject<HTMLInputElement>;
 }
 const JoinInputRows = ({
     onChanger,
@@ -14,8 +15,9 @@ const JoinInputRows = ({
     onCheckId,
     isPossible,
     setIsPossible,
+    inputRef,
 }: JoininputRowsProps) => {
-    const ref = useRef<HTMLInputElement>();
+    // const ref = useRef<HTMLInputElement>();
 
     return (
         <>
@@ -29,6 +31,7 @@ const JoinInputRows = ({
                 placeholder="이메일을 입력해주세요"
                 isPossible={isPossible}
                 setIsPossible={setIsPossible}
+                inputRef={inputRef}
             />
             <TextInputRow
                 rowTitle="비밀번호"

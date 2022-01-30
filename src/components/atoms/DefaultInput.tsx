@@ -15,7 +15,7 @@ interface LocalProps {
     name?: string;
     checked?: boolean;
     onBlur?: () => Promise<void>;
-    isPossible?: boolean;
+    inputRef?: React.RefObject<HTMLInputElement>;
 }
 const DefaultInput = ({
     type,
@@ -24,8 +24,12 @@ const DefaultInput = ({
     name,
     placeholder,
     onBlur,
-    isPossible,
+    inputRef,
 }: LocalProps) => {
+    useEffect(() => {
+        if (inputRef) inputRef?.current?.focus();
+    }, [inputRef]);
+
     return (
         <StyledInput
             type={type}
@@ -34,7 +38,7 @@ const DefaultInput = ({
             onChange={onChange}
             placeholder={placeholder}
             onBlur={onBlur}
-            isPossible={isPossible}
+            ref={inputRef}
         />
     );
 };
@@ -43,7 +47,6 @@ export default DefaultInput;
 
 const StyledInput = styled.input<{
     type: HTMLInputTypeAttribute;
-    isPossible?: boolean;
 }>`
     display: ${(props) => (props.type === 'radio' ? 'none' : 'flex')};
     outline: none;
@@ -56,5 +59,4 @@ const StyledInput = styled.input<{
     &:focus {
         border: 2px solid ${colors.violet};
     }
-    /* color: ${(props) => (props.isPossible ? 'black' : 'red')}; */
 `;
