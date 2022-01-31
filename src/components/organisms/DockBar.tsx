@@ -1,14 +1,35 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 
+const navigationList = [
+    {
+        name: '홈',
+        uri: '/main',
+    },
+    {
+        name: '채팅',
+        uri: '/main/chat',
+    },
+    {
+        name: '검색',
+        uri: '/main/search',
+    },
+    {
+        name: '마이페이지',
+        uri: '/main/mypage',
+    },
+];
 const DockBar = () => {
+    const navigate = useNavigate();
     return (
         <Wrapper>
-            <div>홈</div>
-            <div>채팅</div>
-            <div>검색</div>
-            <div>마이페이지</div>
+            {navigationList.map((item, index) => (
+                <div key={index} onClick={() => navigate(item.uri)}>
+                    {item.name}
+                </div>
+            ))}
         </Wrapper>
     );
 };
@@ -27,4 +48,5 @@ const Wrapper = styled.div`
     div {
         color: #ffffff;
     }
+    cursor: pointer;
 `;

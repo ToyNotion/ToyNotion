@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import DefaultText from '../atoms/DefaultText';
@@ -13,9 +13,28 @@ const LoginHeader = () => {
     );
 };
 const MainHeader = () => {
+    const params = useParams();
+    const { menu } = params;
+    function getMenuName(menu: string | undefined) {
+        switch (true) {
+            case menu === 'chat':
+                return '채팅';
+            case menu === 'search':
+                return '검색';
+            case menu === 'mypage':
+                return '설정';
+            default:
+                return '친구목록';
+        }
+    }
     return (
         <MainWrapper>
-            <DefaultText text="친구" color={'white'} bold size="large" />
+            <DefaultText
+                text={getMenuName(menu)}
+                color={'white'}
+                bold
+                size="large"
+            />
             <OptionBlock />
         </MainWrapper>
     );
@@ -25,7 +44,7 @@ const Header = () => {
     const location = useLocation();
     const { pathname } = location;
 
-    return pathname === '/main' ? <MainHeader /> : <LoginHeader />;
+    return pathname.includes('/main') ? <MainHeader /> : <LoginHeader />;
 };
 
 export default Header;
