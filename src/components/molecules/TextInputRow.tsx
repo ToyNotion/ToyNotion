@@ -33,16 +33,7 @@ const TextInputRow = ({
 }: TextInputRowProps) => {
     return (
         <Wrapper>
-            <DefaultText
-                text={rowTitle}
-                color={
-                    name === 'userId'
-                        ? isPossible === false
-                            ? 'red'
-                            : 'black'
-                        : 'black'
-                }
-            />
+            <DefaultText text={rowTitle} />
             {!checkOptions ? (
                 <DefaultInput
                     type={inputType}

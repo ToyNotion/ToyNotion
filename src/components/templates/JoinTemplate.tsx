@@ -15,7 +15,7 @@ const initForm = {
     userNm: '',
     userSex: '여성',
     userHp: '',
-    userBirth: '',
+    userBirth: moment().format('YYYY-MM-DD'),
 };
 const JoinTemplate = () => {
     const navigate = useNavigate();
@@ -36,36 +36,19 @@ const JoinTemplate = () => {
         e.preventDefault();
         e.stopPropagation();
         const { name, value } = e.target;
-        console.log(value);
-        if (name === 'userBirth') {
-            let tempYear = value.split('-');
-            let applyYear =
-                Number(tempYear[0]) > 1900 ? Number(tempYear[0]) : 1900;
-            tempYear[0] = JSON.stringify(applyYear);
-            // const funcString = (array: string[]) => {
-            //     let temp = '';
-            //     array.map(
-            //         (item, index) =>
-            //             (temp += `${item}${index !== 2 ? '-' : ''}`),
-            //     );
-            //     return temp;
-            // };
-            setState({
-                ...state,
-                [name]: `${tempYear[0]}-${tempYear[1]}-${tempYear[2]}`,
-            });
-            // console.log(name, funcString(tempYear));
-        }
-        if (name === 'userHp') {
-            setState({
-                ...state,
-                [name]: insertOnlyNumber(value),
-            });
-        } else {
-            setState({ ...state, [name]: value });
+        switch (true) {
+            case name === 'userHp':
+                setState({
+                    ...state,
+                    [name]: insertOnlyNumber(value),
+                });
+                return null;
+
+            default:
+                setState({ ...state, [name]: value });
+                return null;
         }
     };
-
     const onCheckNullData = (state: JoinTypes) => {
         const temp = Object.entries(state).map((item) =>
             item[1] === '' ? false : true,
@@ -76,13 +59,19 @@ const JoinTemplate = () => {
     const onCheckPassword = (pw1: string, pw2: string) => {
         return pw1.trim() === pw2.trim();
     };
-
+    const onCheckBirth = (date: string) => {
+        const temp: string = date.slice();
+        const target: string = temp.split('-')[0];
+        return Number(target) >= 1900;
+    };
     const onSubmit = async () => {
         //입력한 비밀번호가 서로 맞는지 체크
         const didCorrectPW = onCheckPassword(state.userPwd, state.userPwdCheck);
-
+        const isCorrectBirth = onCheckBirth(state.userBirth);
         //비밀번호와 비밀번호 확인이 맞다면 api 요청
-        if (didCorrectPW && !onCheckNullData(state)) {
+        console.log(isCorrectBirth);
+        if (didCorrectPW && isCorrectBirth && !onCheckNullData(state)) {
+            setIsPossible(() => true);
             let sendForm = {
                 userId: state.userId,
                 userPwd: state.userPwd,
@@ -93,12 +82,19 @@ const JoinTemplate = () => {
             };
 
             try {
-                console.log(sendForm);
-                // const response = await client.post('user/signUp', sendForm);
-                // console.log('response', response);
-            } catch (error) {}
+                const response = await client.post('user/signUp', sendForm);
+                console.log(response);
+            } catch (e) {
+                console.log(e);
+            }
         } else {
-            alert('입력하신 데이터를 확인해주세요.');
+            if (!isCorrectBirth) {
+                setIsPossible(() => false);
+                setPrint(() => '생년월일을 확인해주세요');
+            } else {
+                setIsPossible(() => false);
+                setPrint(() => '입력하신 데이터를 확인해주세요.');
+            }
         }
     };
     const onCancle = () => {

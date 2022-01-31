@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { HTMLInputTypeAttribute, useEffect } from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
@@ -25,26 +26,18 @@ const DefaultInput = ({
     useEffect(() => {
         if (inputRef) inputRef?.current?.focus();
     }, [inputRef]);
-    const funcString = (data: string) => {
-        let tempYear = data.split('-');
-        let applyYear = Number(tempYear[0]) > 1900 ? Number(tempYear[0]) : 1900;
-        tempYear[0] = JSON.stringify(applyYear);
-        let temp = '';
-        tempYear.map(
-            (item, index) => (temp += `${item}${index !== 2 ? '-' : ''}`),
-        );
-        return temp;
-    };
+
     return (
         <StyledInput
             type={type}
             name={name}
-            value={type === 'date' ? funcString(value as string) : value}
+            value={value}
             onChange={onChange}
             placeholder={placeholder}
             onBlur={onBlur}
             min={'1900-01-01'}
-            max={'2100-12-31'}
+            step="1"
+            max={moment(new Date()).format('YYYY-MM-DD')}
             ref={inputRef}
             maxLength={name === 'userHp' ? 13 : name === 'userBirth' ? 10 : 30}
         />
@@ -66,5 +59,8 @@ const StyledInput = styled.input<{
     background: transparent;
     &:focus {
         border: 2px solid ${colors.violet};
+    }
+    &:invalid {
+        border: solid red 2px;
     }
 `;
