@@ -15,7 +15,7 @@ const LoginHeader = () => {
 const MainHeader = () => {
     return (
         <MainWrapper>
-            <DefaultText text="메인헤더" color={'white'} bold size="large" />
+            <DefaultText text="친구" color={'white'} bold size="large" />
             <OptionBlock />
         </MainWrapper>
     );
@@ -40,8 +40,8 @@ const LoginWrapper = styled.div`
 `;
 
 const MainWrapper = styled.div`
-    background-color: ${colors.violet};
     display: flex;
+    background-color: ${colors.violet};
     flex-direction: row;
     justify-content: space-between;
     align-items: center;

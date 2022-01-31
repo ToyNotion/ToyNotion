@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import DockBar from '../components/organisms/DockBar';
 import Header from '../components/organisms/Header';
+import FriendListTemplate from '../components/templates/FriendListTemplate';
 
 const MainPage = () => {
     return (
         <Container>
             <Header />
-            mainPage
+            <FriendListTemplate />
+            <DockBar />
         </Container>
     );
 };
@@ -14,9 +17,9 @@ const MainPage = () => {
 export default MainPage;
 
 const Container = styled.div`
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+    position: relative;
     justify-content: space-between;
+    height: 100%;
     align-items: center;
+    overflow: hidden;
 `;
