@@ -7,9 +7,9 @@ import LoginTemplate from '../components/templates/LoginTemplate';
 
 const LoginPage = () => {
     const navigator = useNavigate();
-    useEffect(() => {
-        navigator('/main');
-    }, []);
+    // useEffect(() => {
+    //     navigator('/main');
+    // }, []);
 
     return (
         <Container>

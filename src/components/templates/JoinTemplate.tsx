@@ -4,7 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { client } from '../../api';
 import { JoinTypes } from '../../types/joinTypes';
-import { insertOnlyNumber, validateEmail } from '../../utils/validata';
+import {
+    insertOnlyNumber,
+    onCheckBirth,
+    onCheckNullData,
+    onCheckPassword,
+    validateEmail,
+} from '../../utils/validata';
 import DefaultButton from '../atoms/DefaultButton';
 import DefaultText from '../atoms/DefaultText';
 import JoinInputRows from '../organisms/JoinInputRows';
@@ -49,21 +55,7 @@ const JoinTemplate = () => {
                 return null;
         }
     };
-    const onCheckNullData = (state: JoinTypes) => {
-        const temp = Object.entries(state).map((item) =>
-            item[1] === '' ? false : true,
-        );
-        return temp.includes(false);
-    };
 
-    const onCheckPassword = (pw1: string, pw2: string) => {
-        return pw1.trim() === pw2.trim();
-    };
-    const onCheckBirth = (date: string) => {
-        const temp: string = date.slice();
-        const target: string = temp.split('-')[0];
-        return Number(target) >= 1900;
-    };
     const onSubmit = async () => {
         //입력한 비밀번호가 서로 맞는지 체크
         const didCorrectPW = onCheckPassword(state.userPwd, state.userPwdCheck);
@@ -113,7 +105,7 @@ const JoinTemplate = () => {
                     const data = response.data;
                     const success = data.success;
 
-                    if (success === 'true') {
+                    if (success) {
                         setIsPossible(() => true);
                     } else {
                         setPrint(() => data.message);

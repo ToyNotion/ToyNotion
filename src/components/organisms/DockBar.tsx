@@ -24,4 +24,7 @@ const Wrapper = styled.div`
     align-items: center;
     height: 3rem;
     padding: 0 1rem;
+    div {
+        color: #ffffff;
+    }
 `;
