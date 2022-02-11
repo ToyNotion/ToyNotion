@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { client, auth } from '../../api';
+import { client } from '../../api';
 import { LoginTypes } from '../../types/loginTypes';
 import { onCheckNullData, validateEmail } from '../../utils/validata';
 import DefaultButton from '../atoms/DefaultButton';
@@ -31,11 +31,9 @@ const LoginTemplate = () => {
         //비밀번호와 비밀번호 확인이 맞다면 api 요청
         if (didCorrectEmail && !onCheckNullData(loginForm)) {
             try {
-                const response = await auth.post('user/signIn', loginForm);
+                const response = await client.post('user/signIn', loginForm);
                 if (response.data.success) {
-                    // alert(response.data.message);
                     console.log(response);
-                    // navigate('/main');
                 } else {
                     alert('아이디 또는 비밀번호를 확인해주세요');
                     setLoginForm({ ...loginForm, userPwd: '' });

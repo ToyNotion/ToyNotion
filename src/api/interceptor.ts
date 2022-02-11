@@ -20,11 +20,12 @@ client.interceptors.request.use(
 
 auth.interceptors.response.use(
     function (config) {
+        console.log('cookie');
         if (config) {
             // config.headers?['Authorization'] = `Bearer `;
             console.log(config);
             const accessToken = config.data.data;
-            client.defaults.headers.common[
+            auth.defaults.headers.common[
                 'Authorization'
             ] = `Bearer ${accessToken}`;
         }
