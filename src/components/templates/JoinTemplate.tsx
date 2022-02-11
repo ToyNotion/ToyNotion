@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { client } from '../../api';
+import { auth, client } from '../../api';
 import { JoinTypes } from '../../types/joinTypes';
 import {
     insertOnlyNumber,
@@ -74,8 +74,17 @@ const JoinTemplate = () => {
             };
 
             try {
-                const response = await client.post('user/signUp', sendForm);
+                const response = await auth.post('user/signUp', sendForm);
                 console.log(response);
+                const result = response.data.success;
+                const message = response.data.message;
+                if (result) {
+                    alert(message);
+                    setState(() => initForm);
+                    navigate('/');
+                } else {
+                    alert(message);
+                }
             } catch (e) {
                 console.log(e);
             }

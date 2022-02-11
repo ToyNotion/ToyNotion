@@ -1,10 +1,13 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from '../components/molecules/Footer';
 import Header from '../components/organisms/Header';
 import JoinTemplate from '../components/templates/JoinTemplate';
 
 const JoinPage = () => {
+    const location = useLocation();
+    console.log(location.search);
     return (
         <Container>
             <Header />

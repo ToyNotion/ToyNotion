@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, useLocation, useParams } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import DockBar from '../components/organisms/DockBar';
 import Header from '../components/organisms/Header';
@@ -13,7 +13,7 @@ const MainPage = () => {
     const params = useParams();
     const { pathname } = location;
     const { menu } = params;
-    console.log(menu);
+
     const renderComponent = () => {
         switch (menu) {
             case '':
@@ -34,13 +34,6 @@ const MainPage = () => {
         <Container>
             <Header />
             {renderComponent()}
-            {/* <Routes location={'/main/:menu'}>
-                <Route path="/main/home" element={<HomeTemplate />} />
-                <Route path="/main/chat" element={<ChatTemplate />} />
-                <Route path="/main/search" element={<SearchTemplate />} />
-                <Route path="/main/mypage" element={<MypageTemplate />} />
-            </Routes> */}
-
             <DockBar />
         </Container>
     );
