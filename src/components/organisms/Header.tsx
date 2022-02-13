@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactChild, ReactNode } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
+import { LogoutIcon } from '../../constant/Icons';
 import DefaultText from '../atoms/DefaultText';
-import OptionBlock from '../molecules/OptionBlock';
 
 const LoginHeader = () => {
     return (
@@ -35,7 +35,10 @@ const MainHeader = () => {
                 bold
                 size="large"
             />
-            <OptionBlock />
+            <LogoutBox
+                children={<LogoutIcon />}
+                onClick={() => alert('logout')}
+            />
         </MainWrapper>
     );
 };
@@ -66,4 +69,10 @@ const MainWrapper = styled.div`
     align-items: center;
     height: 3rem;
     padding: 0 1rem;
+`;
+
+const LogoutBox = styled.div<React.FC<{ children: React.ReactElement }>>`
+    width: max-content;
+    height: max-content;
+    cursor: pointer;
 `;

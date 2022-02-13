@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { client } from '../../api';
+import { fetchLogin } from '../../api/auth';
+import { loginInitForm } from '../../initData/login';
 import { LoginTypes } from '../../types/loginTypes';
 import { onCheckNullData, validateEmail } from '../../utils/validata';
 import DefaultButton from '../atoms/DefaultButton';
@@ -9,11 +10,7 @@ import LoginInputRows from '../organisms/LoginInputRows';
 
 const LoginTemplate = () => {
     const navigate = useNavigate();
-    const [loginForm, setLoginForm] = useState<LoginTypes>({
-        userId: '',
-        userPwd: '',
-        serviceNo: '1',
-    });
+    const [loginForm, setLoginForm] = useState<LoginTypes>(loginInitForm);
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.stopPropagation();
@@ -27,11 +24,11 @@ const LoginTemplate = () => {
 
     const onSubmit = async () => {
         //입력한 비밀번호가 서로 맞는지 체크
-        const didCorrectEmail = validateEmail(loginForm.userId);
+        const isCorrectEmail = validateEmail(loginForm.userId);
         //비밀번호와 비밀번호 확인이 맞다면 api 요청
-        if (didCorrectEmail && !onCheckNullData(loginForm)) {
+        if (isCorrectEmail && !onCheckNullData(loginForm)) {
             try {
-                const response = await client.post('user/signIn', loginForm);
+                const response = await fetchLogin('user/signIn', loginForm);
                 if (response.data.success) {
                     console.log(response);
                 } else {

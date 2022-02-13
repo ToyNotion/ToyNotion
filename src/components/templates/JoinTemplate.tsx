@@ -2,7 +2,9 @@ import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { auth, client } from '../../api';
+import { client } from '../../api';
+import { fetchJoin } from '../../api/auth';
+import { joinInitForm } from '../../initData/join';
 import { JoinTypes } from '../../types/joinTypes';
 import {
     insertOnlyNumber,
@@ -14,24 +16,16 @@ import {
 import DefaultButton from '../atoms/DefaultButton';
 import DefaultText from '../atoms/DefaultText';
 import JoinInputRows from '../organisms/JoinInputRows';
-const initForm = {
-    userId: '',
-    userPwd: '',
-    userPwdCheck: '',
-    userNm: '',
-    userSex: '여성',
-    userHp: '',
-    userBirth: moment().format('YYYY-MM-DD'),
-};
+
 const JoinTemplate = () => {
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
-    const [state, setState] = useState<JoinTypes>(initForm);
-    const [print, setPrint] = useState<string>('');
+    const [state, setState] = useState<JoinTypes>(joinInitForm);
+    const [viewMessage, setViewMessaage] = useState<string>('');
 
     useEffect(() => {
         return () => {
-            setState(() => initForm);
+            setState(() => joinInitForm);
             setIsPossible(() => true);
         };
     }, []);
@@ -58,7 +52,10 @@ const JoinTemplate = () => {
 
     const onSubmit = async () => {
         //입력한 비밀번호가 서로 맞는지 체크
-        const didCorrectPW = onCheckPassword(state.userPwd, state.userPwdCheck);
+        const didCorrectPW =
+            state.userPwdCheck &&
+            onCheckPassword(state.userPwd, state.userPwdCheck);
+
         const isCorrectBirth = onCheckBirth(state.userBirth);
         //비밀번호와 비밀번호 확인이 맞다면 api 요청
         console.log(isCorrectBirth);
@@ -74,13 +71,13 @@ const JoinTemplate = () => {
             };
 
             try {
-                const response = await auth.post('user/signUp', sendForm);
+                const response = await fetchJoin('user/signUp', sendForm);
                 console.log(response);
                 const result = response.data.success;
                 const message = response.data.message;
                 if (result) {
                     alert(message);
-                    setState(() => initForm);
+                    setState(() => joinInitForm);
                     navigate('/');
                 } else {
                     alert(message);
@@ -91,10 +88,10 @@ const JoinTemplate = () => {
         } else {
             if (!isCorrectBirth) {
                 setIsPossible(() => false);
-                setPrint(() => '생년월일을 확인해주세요');
+                setViewMessaage(() => '생년월일을 확인해주세요');
             } else {
                 setIsPossible(() => false);
-                setPrint(() => '입력하신 데이터를 확인해주세요.');
+                setViewMessaage(() => '입력하신 데이터를 확인해주세요.');
             }
         }
     };
@@ -103,7 +100,6 @@ const JoinTemplate = () => {
     };
 
     const onCheckId = async () => {
-        //TODO: 영문 조건식 추가 , email 형식 조건식 추가
         if (state.userId === '') {
         } else {
             if (validateEmail(state.userId)) {
@@ -117,7 +113,7 @@ const JoinTemplate = () => {
                     if (success) {
                         setIsPossible(() => true);
                     } else {
-                        setPrint(() => data.message);
+                        setViewMessaage(() => data.message);
                         setIsPossible(() => false);
                         inputRef?.current?.focus();
                     }
@@ -126,7 +122,7 @@ const JoinTemplate = () => {
                 }
             } else {
                 setIsPossible(() => false);
-                setPrint(() => '이메일 형식으로 입력해주세요.');
+                setViewMessaage(() => '이메일 형식으로 입력해주세요.');
                 inputRef?.current?.focus();
             }
         }
@@ -134,9 +130,9 @@ const JoinTemplate = () => {
 
     return (
         <Container>
-            {!isPossible && print !== '' && (
+            {!isPossible && viewMessage !== '' && (
                 <Wrapper>
-                    <DefaultText text={print} color="red" />
+                    <DefaultText text={viewMessage} color="red" />
                 </Wrapper>
             )}
             <JoinInputRows

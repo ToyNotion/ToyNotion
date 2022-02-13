@@ -2,33 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
+import { navigationList } from '../../initData/DockbarData';
 
-const navigationList = [
-    {
-        name: '홈',
-        uri: '/main',
-    },
-    {
-        name: '채팅',
-        uri: '/main/chat',
-    },
-    {
-        name: '검색',
-        uri: '/main/search',
-    },
-    {
-        name: '마이페이지',
-        uri: '/main/mypage',
-    },
-];
 const DockBar = () => {
     const navigate = useNavigate();
     return (
         <Wrapper>
             {navigationList.map((item, index) => (
-                <div key={index} onClick={() => navigate(item.uri)}>
-                    {item.name}
-                </div>
+                <IconWrapper key={index} onClick={() => navigate(item.uri)}>
+                    {item.icon}
+                </IconWrapper>
             ))}
         </Wrapper>
     );
@@ -41,7 +24,7 @@ const Wrapper = styled.div`
     display: flex;
     background-color: ${colors.violet};
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     height: 3rem;
     padding: 0 1rem;
@@ -49,4 +32,12 @@ const Wrapper = styled.div`
         color: #ffffff;
     }
     cursor: pointer;
+`;
+
+const IconWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 100%;
 `;
