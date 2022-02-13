@@ -5,6 +5,7 @@ import useGoLogin from '../hooks/useGoLogin';
 export const client = axios.create({
     baseURL: 'http://localhost:8080/',
 });
+client.defaults.withCredentials = true;
 
 client.interceptors.request.use(
     function (config) {

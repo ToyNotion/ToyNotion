@@ -1,5 +1,11 @@
-import React, { ReactChild, ReactNode } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import React from 'react';
+import {
+    Navigate,
+    useLocation,
+    useNavigate,
+    useParams,
+    Navigator,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import { LogoutIcon } from '../../constant/Icons';
@@ -15,6 +21,9 @@ const LoginHeader = () => {
 const MainHeader = () => {
     const params = useParams();
     const { menu } = params;
+    const navagation = useNavigate();
+    const location = useLocation();
+
     function getMenuName(menu: string | undefined) {
         switch (true) {
             case menu === 'chat':
@@ -27,6 +36,15 @@ const MainHeader = () => {
                 return '친구목록';
         }
     }
+    const handleLogout = () => {
+        if (window.confirm('logout하시겠습니까?')) {
+            // navagation('/');
+            // navagation('/', { replace: true });
+            window.history.pushState('', '', '/');
+        } else {
+        }
+    };
+
     return (
         <MainWrapper>
             <DefaultText
@@ -35,10 +53,7 @@ const MainHeader = () => {
                 bold
                 size="large"
             />
-            <LogoutBox
-                children={<LogoutIcon />}
-                onClick={() => alert('logout')}
-            />
+            <LogoutBox children={<LogoutIcon />} onClick={handleLogout} />
         </MainWrapper>
     );
 };

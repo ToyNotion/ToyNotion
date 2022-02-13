@@ -5,7 +5,7 @@ const useGoLogin = () => {
     const navigation = useNavigate();
 
     useEffect(() => {
-        navigation('/main/mypage');
+        navigation('/');
     }, []);
 
     return null;
