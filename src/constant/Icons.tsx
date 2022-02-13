@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaHome } from 'react-icons/fa';
 import { FaCommentDots } from 'react-icons/fa';
 import { FaSearch } from 'react-icons/fa';
 import { FaUserAlt } from 'react-icons/fa';

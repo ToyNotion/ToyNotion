@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    Navigate,
-    useLocation,
-    useNavigate,
-    useParams,
-    Navigator,
-} from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import { LogoutIcon } from '../../constant/Icons';
@@ -21,8 +15,7 @@ const LoginHeader = () => {
 const MainHeader = () => {
     const params = useParams();
     const { menu } = params;
-    const navagation = useNavigate();
-    const location = useLocation();
+    const navigation = useNavigate();
 
     function getMenuName(menu: string | undefined) {
         switch (true) {
@@ -38,9 +31,7 @@ const MainHeader = () => {
     }
     const handleLogout = () => {
         if (window.confirm('logout하시겠습니까?')) {
-            // navagation('/');
-            // navagation('/', { replace: true });
-            window.history.pushState('', '', '/');
+            navigation('/');
         } else {
         }
     };
