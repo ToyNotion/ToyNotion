@@ -5,8 +5,18 @@ import { ChatStatusTypes } from '../../types/MainTypes';
 import DefaultText from '../atoms/DefaultText';
 
 const ChatStateRow = ({ name, statusMessage }: ChatStatusTypes) => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>, name: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        alert(name);
+    };
+
     return (
-        <Container>
+        <Container
+            onClick={(e: React.MouseEvent<HTMLDivElement>) =>
+                handleClick(e, name)
+            }
+        >
             <DefaultText text={name} bold />
             <DefaultText text={statusMessage} size="small" />
         </Container>
@@ -23,4 +33,5 @@ const Container = styled.div`
     align-items: flex-start;
     padding: 0.8rem 2rem;
     row-gap: 0.4rem;
+    cursor: pointer;
 `;

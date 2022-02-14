@@ -79,6 +79,9 @@ const MainWrapper = styled.div`
 `;
 
 const LogoutBox = styled.div<React.FC<{ children: React.ReactElement }>>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: max-content;
     height: max-content;
     cursor: pointer;

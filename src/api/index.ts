@@ -15,7 +15,7 @@ client.interceptors.request.use(
         const cookies = new Cookie();
         const accessToken = cookies.get('accessToken');
         const refresh = cookies.get('refreshKey');
-        console.log(refresh);
+
         if (config && accessToken) {
             client.defaults.headers.common[
                 'Authorization'
