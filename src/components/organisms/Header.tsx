@@ -1,8 +1,9 @@
 import React from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 import { LogoutIcon } from '../../constant/Icons';
+import useLogout from '../../hooks/useLogout';
 import DefaultText from '../atoms/DefaultText';
 
 const LoginHeader = () => {
@@ -15,8 +16,8 @@ const LoginHeader = () => {
 const MainHeader = () => {
     const params = useParams();
     const { menu } = params;
-    const navigation = useNavigate();
 
+    const onLogout = useLogout();
     function getMenuName(menu: string | undefined) {
         switch (true) {
             case menu === 'chat':
@@ -31,9 +32,9 @@ const MainHeader = () => {
     }
     const handleLogout = () => {
         if (window.confirm('logout하시겠습니까?')) {
-            navigation('/');
-        } else {
+            onLogout();
         }
+        return;
     };
 
     return (

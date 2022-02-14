@@ -1,19 +1,22 @@
 import axios from 'axios';
 import Cookie from 'universal-cookie';
-import useGoLogin from '../hooks/useGoLogin';
+import useCorrectAuth from '../hooks/useCorrectAuth';
 
 export const client = axios.create({
     baseURL: 'http://localhost:8080/',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    withCredentials: true,
 });
-client.defaults.withCredentials = true;
 
 client.interceptors.request.use(
     function (config) {
         const cookies = new Cookie();
         const accessToken = cookies.get('accessToken');
-        console.log('cookie', document.cookie);
-
-        if (config) {
+        const refresh = cookies.get('refreshKey');
+        console.log(refresh);
+        if (config && accessToken) {
             client.defaults.headers.common[
                 'Authorization'
             ] = `Bearer ${accessToken}`;
@@ -33,7 +36,6 @@ client.interceptors.response.use(
         if (config) {
             if (config.config.url === 'user/signIn') {
                 cookies.set('accessToken', config.data.data);
-                useGoLogin();
             }
         }
         return config;

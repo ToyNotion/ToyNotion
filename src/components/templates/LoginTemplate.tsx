@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchLogin } from '../../api/auth';
+import useCorrectAuth from '../../hooks/useCorrectAuth';
 import { loginInitForm } from '../../initData/login';
 import { LoginTypes } from '../../types/loginTypes';
 import { onCheckNullData, validateEmail } from '../../utils/validata';
@@ -11,6 +12,7 @@ import LoginInputRows from '../organisms/LoginInputRows';
 const LoginTemplate = () => {
     const navigate = useNavigate();
     const [loginForm, setLoginForm] = useState<LoginTypes>(loginInitForm);
+    const { trueAuth } = useCorrectAuth();
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.stopPropagation();
@@ -30,7 +32,7 @@ const LoginTemplate = () => {
             try {
                 const response = await fetchLogin('user/signIn', loginForm);
                 if (response.data.success) {
-                    console.log(response);
+                    trueAuth();
                 } else {
                     alert('아이디 또는 비밀번호를 확인해주세요');
                     setLoginForm({ ...loginForm, userPwd: '' });
