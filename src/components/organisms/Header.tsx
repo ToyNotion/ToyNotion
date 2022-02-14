@@ -1,6 +1,8 @@
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Cookies from 'universal-cookie';
+import { client } from '../../api';
 import { colors } from '../../constant/colors';
 import { LogoutIcon } from '../../constant/Icons';
 import useLogout from '../../hooks/useLogout';
@@ -16,6 +18,7 @@ const LoginHeader = () => {
 const MainHeader = () => {
     const params = useParams();
     const { menu } = params;
+    const cookies = new Cookies();
 
     const onLogout = useLogout();
     function getMenuName(menu: string | undefined) {
@@ -36,7 +39,18 @@ const MainHeader = () => {
         }
         return;
     };
-
+    const testRefresh = async () => {
+        const refreshKey = cookies.get('refreshKey');
+        console.log(refreshKey);
+        const data = { refreshTokenKey: refreshKey };
+        console.log(data);
+        try {
+            const response = await client.post('user/refresh', data);
+            console.log('response', response);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
     return (
         <MainWrapper>
             <DefaultText
@@ -45,6 +59,7 @@ const MainHeader = () => {
                 bold
                 size="large"
             />
+            <div onClick={testRefresh}>리프레쉬</div>
             <LogoutBox children={<LogoutIcon />} onClick={handleLogout} />
         </MainWrapper>
     );
