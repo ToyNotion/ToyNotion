@@ -22,20 +22,10 @@ client.interceptors.request.use(
 
         return config;
     },
-    function (error) {
+    function async(error) {
         console.log('sdfs', error);
         console.log('sdfs', error.config.status);
-        // if (true) {
-        //     Promise.resolve(async () => {
-        //         const refresh = cookies.get('refreshKey');
-        //         const data = { refreshTokenKey: `${refresh}` };
-        //         try {
-        //             const response = client.post('user/refresh', data);
-        //             console.log(response);
-        //         } catch (error) {}
-        //     });
-        // } else {
-        // }
+
         return Promise.reject(error);
     },
 );
@@ -47,11 +37,38 @@ client.interceptors.response.use(
             if (config.config.url === 'user/signIn') {
                 cookies.set('accessToken', config.data.data);
             }
+            console.log(window.location.href);
+            console.log(JSON.stringify(config.config.url)?.trim() === '');
+            console.log(config);
         }
         return config;
     },
-    function (error) {
-        console.log(error);
+    async (error) => {
+        const status = error.response.status;
+        if (status === 401) {
+            const originalConfig = error.config;
+            const refresh = cookies.get('refreshKey');
+            const data = { refreshTokenKey: `${refresh}` };
+            try {
+                await client
+                    .post('user/refresh', data)
+                    .then((res) => {
+                        cookies.set('accessToken', res.data.data);
+                    })
+                    .then((res) => {
+                        const newConfig = { ...originalConfig };
+                        const accessToken = cookies.get('accessToken');
+                        newConfig.headers.Authorization = `Bearer ${accessToken}`;
+                        return client(newConfig);
+                    });
+            } catch (error) {
+                console.log(error);
+                window.location.href = '/';
+                cookies.remove('accessToken');
+                cookies.remove('refreshKey');
+            }
+        }
+
         return Promise.reject(error);
     },
 );

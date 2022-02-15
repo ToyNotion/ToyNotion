@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import DockBar from '../components/organisms/DockBar';
@@ -7,12 +7,22 @@ import ChatTemplate from '../components/templates/ChatTemplate';
 import HomeTemplate from '../components/templates/HomeTemplate';
 import MypageTemplate from '../components/templates/MypageTemplate';
 import SearchTemplate from '../components/templates/SearchTemplate';
+import useCheckToken from '../hooks/useCheckToken';
+import useLogout from '../hooks/useLogout';
 
 const MainPage = () => {
     const location = useLocation();
     const params = useParams();
-    const { pathname } = location;
     const { menu } = params;
+    const { checkAccessToken } = useCheckToken();
+    const { onLogout } = useLogout();
+
+    useEffect(() => {
+        checkAccessToken();
+        return () => {
+            onLogout();
+        };
+    }, []);
 
     const renderComponent = () => {
         switch (menu) {
