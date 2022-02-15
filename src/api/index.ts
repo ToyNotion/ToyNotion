@@ -1,20 +1,18 @@
 import axios from 'axios';
 import Cookie from 'universal-cookie';
-import useCorrectAuth from '../hooks/useCorrectAuth';
 
 export const client = axios.create({
     baseURL: 'http://localhost:8080/',
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    // headers: {
+    //     'Content-Type': 'application/json',
+    // },
     withCredentials: true,
 });
 
+const cookies = new Cookie();
 client.interceptors.request.use(
     function (config) {
-        const cookies = new Cookie();
         const accessToken = cookies.get('accessToken');
-        const refresh = cookies.get('refreshKey');
 
         if (config && accessToken) {
             client.defaults.headers.common[
@@ -24,8 +22,10 @@ client.interceptors.request.use(
 
         return config;
     },
-    function (error) {
-        console.log(error);
+    function async(error) {
+        console.log('sdfs', error);
+        console.log('sdfs', error.config.status);
+
         return Promise.reject(error);
     },
 );
@@ -37,11 +37,38 @@ client.interceptors.response.use(
             if (config.config.url === 'user/signIn') {
                 cookies.set('accessToken', config.data.data);
             }
+            console.log(window.location.href);
+            console.log(JSON.stringify(config.config.url)?.trim() === '');
+            console.log(config);
         }
         return config;
     },
-    function (error) {
-        console.log(error);
+    async (error) => {
+        const status = error.response.status;
+        if (status === 401) {
+            const originalConfig = error.config;
+            const refresh = cookies.get('refreshKey');
+            const data = { refreshTokenKey: `${refresh}` };
+            try {
+                await client
+                    .post('user/refresh', data)
+                    .then((res) => {
+                        cookies.set('accessToken', res.data.data);
+                    })
+                    .then((res) => {
+                        const newConfig = { ...originalConfig };
+                        const accessToken = cookies.get('accessToken');
+                        newConfig.headers.Authorization = `Bearer ${accessToken}`;
+                        return client(newConfig);
+                    });
+            } catch (error) {
+                console.log(error);
+                window.location.href = '/';
+                cookies.remove('accessToken');
+                cookies.remove('refreshKey');
+            }
+        }
+
         return Promise.reject(error);
     },
 );

@@ -13,7 +13,7 @@ const useLogout = () => {
         falseAuth();
     }, [cookies, falseAuth]);
 
-    return onLogout;
+    return { onLogout };
 };
 
 export default useLogout;

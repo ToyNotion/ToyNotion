@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Cookies from 'universal-cookie';
 import { client } from '../../api';
 import { colors } from '../../constant/colors';
 import { LogoutIcon } from '../../constant/Icons';
+import useCheckToken from '../../hooks/useCheckToken';
 import useLogout from '../../hooks/useLogout';
 import DefaultText from '../atoms/DefaultText';
 
@@ -20,7 +21,8 @@ const MainHeader = () => {
     const { menu } = params;
     const cookies = new Cookies();
 
-    const onLogout = useLogout();
+    const { onLogout } = useLogout();
+
     function getMenuName(menu: string | undefined) {
         switch (true) {
             case menu === 'chat':
@@ -51,6 +53,18 @@ const MainHeader = () => {
             console.log('error', error);
         }
     };
+    const testAuthorization = async () => {
+        // const refreshKey = cookies.get('refreshKey');
+        // console.log(refreshKey);
+        // const data = { refreshTokenKey: refreshKey };
+        // console.log(data);
+        try {
+            const response = await client.get('user/vaildToken');
+            console.log('response', response);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
     return (
         <MainWrapper>
             <DefaultText
@@ -59,6 +73,7 @@ const MainHeader = () => {
                 bold
                 size="large"
             />
+            <div onClick={testAuthorization}>토큰 검증</div>
             <div onClick={testRefresh}>리프레쉬</div>
             <LogoutBox children={<LogoutIcon />} onClick={handleLogout} />
         </MainWrapper>
