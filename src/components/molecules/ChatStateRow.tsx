@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
@@ -10,13 +10,13 @@ const ChatStateRow = React.memo(
     ({ name, statusMessage, userid }: ChatStatusTypes) => {
         const setOnModal = useSetRecoilState<boolean>(modalState);
         const setUserId = useSetRecoilState<number | null>(userIdState);
-        const handleClick = (
-            e: React.MouseEvent<HTMLDivElement>,
-            id: number,
-        ) => {
-            setUserId(id);
-            setOnModal(true);
-        };
+        const handleClick = useCallback(
+            (e: React.MouseEvent<HTMLDivElement>, id: number) => {
+                setUserId(id);
+                setOnModal(true);
+            },
+            [setUserId, setOnModal],
+        );
 
         return (
             <Container

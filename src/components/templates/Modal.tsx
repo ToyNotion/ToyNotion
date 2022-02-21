@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { modalState, userIdState } from '../../modules/recoilAtoms/modalAtom';
@@ -6,9 +6,10 @@ import { modalState, userIdState } from '../../modules/recoilAtoms/modalAtom';
 const Modal = () => {
     const [onModal, setOnModal] = useRecoilState<boolean>(modalState);
     const userId = useRecoilValue<number | null>(userIdState);
-    const handleMountModal = () => {
+    const handleMountModal = useCallback(() => {
         setOnModal(false);
-    };
+    }, [setOnModal]);
+
     return (
         <Container isView={onModal}>
             <Background onClick={handleMountModal} />

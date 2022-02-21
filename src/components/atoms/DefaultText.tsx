@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
 
@@ -12,17 +12,18 @@ interface LocalProps {
     color?: ColorsType;
 }
 
-const DefaultText = ({ text, bold, color, size }: LocalProps) => {
+const DefaultText = React.memo(({ text, bold, color, size }: LocalProps) => {
+    const memoizeText = useMemo(() => text, [text]);
     return (
         <StyledSpan
             selectColor={color || 'black'}
             selectSize={size || 'medium'}
             isBold={bold || false}
         >
-            {text}
+            {memoizeText}
         </StyledSpan>
     );
-};
+});
 
 export default DefaultText;
 
