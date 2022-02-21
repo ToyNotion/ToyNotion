@@ -17,7 +17,6 @@ const JoinInputRows = ({
     setIsPossible,
     inputRef,
 }: JoininputRowsProps) => {
-    console.log(state.userHp);
     return (
         <>
             <TextInputRow

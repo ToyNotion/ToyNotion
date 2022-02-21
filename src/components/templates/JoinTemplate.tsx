@@ -34,7 +34,6 @@ const JoinTemplate = () => {
 
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        e.stopPropagation();
         const { name, value } = e.target;
         switch (true) {
             case name === 'userHp':

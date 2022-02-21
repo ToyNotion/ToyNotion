@@ -15,7 +15,6 @@ const LoginTemplate = () => {
     const { trueAuth } = useCorrectAuth();
     const onChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        e.stopPropagation();
         const { name, value } = e.target;
         setLoginForm({ ...loginForm, [name]: value });
     };

@@ -1,10 +1,13 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { colors } from '../../constant/colors';
+import { modalState } from '../../modules/recoilAtoms/modalAtom';
 import { ChatStatusTypes } from '../../types/MainTypes';
 import DefaultText from '../atoms/DefaultText';
 
 const ChatStateRow = ({ name, statusMessage }: ChatStatusTypes) => {
+    const [onModal, setOnModal] = useRecoilState(modalState);
     const handleClick = (e: React.MouseEvent<HTMLDivElement>, name: string) => {
         e.preventDefault();
         e.stopPropagation();
@@ -13,9 +16,7 @@ const ChatStateRow = ({ name, statusMessage }: ChatStatusTypes) => {
 
     return (
         <Container
-            onClick={(e: React.MouseEvent<HTMLDivElement>) =>
-                handleClick(e, name)
-            }
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => setOnModal(true)}
         >
             <DefaultText text={name} bold />
             <DefaultText text={statusMessage} size="small" />

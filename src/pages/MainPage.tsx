@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import DockBar from '../components/organisms/DockBar';
 import Header from '../components/organisms/Header';
 import ChatTemplate from '../components/templates/ChatTemplate';
 import HomeTemplate from '../components/templates/HomeTemplate';
+import Modal from '../components/templates/Modal';
 import MypageTemplate from '../components/templates/MypageTemplate';
 import SearchTemplate from '../components/templates/SearchTemplate';
 import useCheckToken from '../hooks/useCheckToken';
 import useLogout from '../hooks/useLogout';
+import { modalState } from '../modules/recoilAtoms/modalAtom';
 
 const MainPage = () => {
     const location = useLocation();
@@ -16,9 +19,10 @@ const MainPage = () => {
     const { menu } = params;
     const { checkAccessToken } = useCheckToken();
     const { onLogout } = useLogout();
+    const onModal = useRecoilValue(modalState);
 
     useEffect(() => {
-        checkAccessToken();
+        // checkAccessToken();
         return () => {
             onLogout();
         };
@@ -41,11 +45,14 @@ const MainPage = () => {
     };
 
     return (
-        <Container>
-            <Header />
-            {renderComponent()}
-            <DockBar />
-        </Container>
+        <>
+            <Container>
+                {onModal && <Modal />}
+                <Header />
+                {renderComponent()}
+                <DockBar />
+            </Container>
+        </>
     );
 };
 
