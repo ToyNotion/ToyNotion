@@ -1,17 +1,18 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { modalState } from '../../modules/recoilAtoms/modalAtom';
+import { modalState, userIdState } from '../../modules/recoilAtoms/modalAtom';
 
 const Modal = () => {
-    const [onModal, setOnModal] = useRecoilState(modalState);
+    const [onModal, setOnModal] = useRecoilState<boolean>(modalState);
+    const userId = useRecoilValue<number | null>(userIdState);
     const handleMountModal = () => {
         setOnModal(false);
     };
     return (
         <Container isView={onModal}>
             <Background onClick={handleMountModal} />
-            <Wrapper>bakground</Wrapper>
+            <Wrapper>{userId}</Wrapper>
         </Container>
     );
 };
@@ -40,8 +41,8 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 84%;
-    width: 84%;
+    height: 80%;
+    width: 76%;
     background-color: white;
     border-radius: 10px;
 `;

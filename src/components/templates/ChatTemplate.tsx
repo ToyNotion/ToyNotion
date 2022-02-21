@@ -5,11 +5,11 @@ import ChatStateRow from '../molecules/ChatStateRow';
 const ChatTemplate = () => {
     return (
         <Container>
+            {/* <ChatStateRow name="김상배" statusMessage="개발중..." />
             <ChatStateRow name="김상배" statusMessage="개발중..." />
             <ChatStateRow name="김상배" statusMessage="개발중..." />
             <ChatStateRow name="김상배" statusMessage="개발중..." />
-            <ChatStateRow name="김상배" statusMessage="개발중..." />
-            <ChatStateRow name="김상배" statusMessage="개발중..." />
+            <ChatStateRow name="김상배" statusMessage="개발중..." /> */}
         </Container>
     );
 };

@@ -8,7 +8,7 @@ const HomeTemplate = () => {
     return (
         <Container>
             <SubTitle text="내 정보" />
-            <ChatStateRow name="김상배" statusMessage="개발중..." />
+            <ChatStateRow name="김상배" statusMessage="개발중..." userid={0} />
             <SubTitle text="친구 목록" />
             <FriendsList />
         </Container>
