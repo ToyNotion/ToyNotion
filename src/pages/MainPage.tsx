@@ -21,6 +21,7 @@ const MainPage = () => {
     const onModal = useRecoilValue(modalState);
 
     useEffect(() => {
+        console.log('modalState', onModal);
         checkAccessToken();
         return () => {
             onLogout();
@@ -44,14 +45,12 @@ const MainPage = () => {
     };
 
     return (
-        <>
-            <Container>
-                {onModal && <ProfileModal />}
-                <Header />
-                {renderComponent()}
-                <DockBar />
-            </Container>
-        </>
+        <Container>
+            {onModal && <ProfileModal />}
+            <Header />
+            {renderComponent()}
+            <DockBar />
+        </Container>
     );
 };
 

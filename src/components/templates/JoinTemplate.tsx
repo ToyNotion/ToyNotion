@@ -71,7 +71,7 @@ const JoinTemplate = () => {
             };
 
             try {
-                const response = await fetchJoin('user/signUp', sendForm);
+                const response = await fetchJoin(sendForm);
                 console.log(response);
                 const result = response.data.success;
                 const message = response.data.message;

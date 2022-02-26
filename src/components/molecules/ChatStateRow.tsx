@@ -7,21 +7,21 @@ import { ChatStatusTypes } from '../../types/MainTypes';
 import DefaultText from '../atoms/DefaultText';
 
 const ChatStateRow = React.memo(
-    ({ name, statusMessage, userid }: ChatStatusTypes) => {
+    ({ name, statusMessage, targetUserId }: ChatStatusTypes) => {
         const setOnModal = useSetRecoilState<boolean>(modalState);
-        const setUserId = useSetRecoilState<number | null>(userIdState);
+        const setTargetUserId = useSetRecoilState<number | null>(userIdState);
         const handleClick = useCallback(
-            (e: React.MouseEvent<HTMLDivElement>, id: number) => {
-                setUserId(id);
+            (e: React.MouseEvent<HTMLDivElement>, id: number | null) => {
+                if (id) setTargetUserId(id);
                 setOnModal(true);
             },
-            [setUserId, setOnModal],
+            [setTargetUserId, setOnModal],
         );
 
         return (
             <Container
                 onClick={(e: React.MouseEvent<HTMLDivElement>) =>
-                    handleClick(e, userid)
+                    handleClick(e, targetUserId)
                 }
             >
                 <DefaultText text={name} bold />

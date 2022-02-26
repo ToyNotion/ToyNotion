@@ -12,7 +12,7 @@ const FriendsList = () => {
                 <ChatStateRow
                     key={index}
                     name={`친구 ${index + 1}`}
-                    userid={index + 1}
+                    targetUserId={index + 2}
                     statusMessage="개발중..."
                 />
             ))}

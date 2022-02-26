@@ -2,14 +2,14 @@ import { LoginTypes } from './../types/loginTypes';
 import { client } from '.';
 import { JoinTypes } from '../types/joinTypes';
 
-export const fetchLogin = (url: string, loginFform: LoginTypes) => {
-    return client.post(url, loginFform);
+export const fetchLogin = (loginFform: LoginTypes) => {
+    return client.post('user/signIn', loginFform);
 };
 
-export const fetchJoin = (url: string, joinForm: JoinTypes) => {
-    return client.post(url, joinForm);
+export const fetchJoin = (joinForm: JoinTypes) => {
+    return client.post('user/signUp', joinForm);
 };
 
-export const fetchUserCheck = (url: string) => {
-    return client.get(url);
+export const fetchUserCheck = () => {
+    return client.get('user/vaildToken');
 };

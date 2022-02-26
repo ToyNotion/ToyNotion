@@ -1,6 +1,13 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { fullImage } from '../../modules/recoilAtoms/modalAtom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { client } from '../../api';
+import {
+    fetchUpdateStatusMessage,
+    fetchUpdateStatusName,
+} from '../../api/profile';
+import { fullImage, userIdState } from '../../modules/recoilAtoms/modalAtom';
+import { UserInfoTypes } from '../../modules/recoilAtoms/userInfoAtom';
 import ProfileImage from '../atoms/ProfileImage';
 import ProfileUserInfo from '../molecules/ProfileUserInfo';
 import MY_IMAGE from '../templates/winter.webp';
@@ -8,24 +15,27 @@ import WINTER_IMAGE from '../templates/겨울.jpg';
 
 interface ProfileProps {
     onViewFullImage: () => void;
-    userId: number | null;
+    userInfo: UserInfoTypes | null;
 }
 
 export type userInfoForm = {
-    name: string;
-    statusMessage?: string;
+    userSq: string;
+    userNm: string;
+    userMsg?: string;
 };
 
-const Profile = ({ onViewFullImage, userId }: ProfileProps) => {
+const Profile = ({ onViewFullImage, userInfo }: ProfileProps) => {
     const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
     const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
     const [profileImg, setProfileImg] = useState('');
     const setProfileImage = useSetRecoilState(fullImage);
+    const targetUserId = useRecoilValue(userIdState);
+    // const { userSq, userImage, userMsg, userNm, userSq } = userInfo;
     const [form, setForm] = useState<userInfoForm>({
-        name: `윈터${userId}`,
-        statusMessage: `상태메시지${userId}`,
+        userSq: '',
+        userNm: '',
+        userMsg: '',
     });
-
     const handleUpdateMode = () => {
         setIsUpdateMode((isUpdateMode) => !isUpdateMode);
     };
@@ -36,16 +46,45 @@ const Profile = ({ onViewFullImage, userId }: ProfileProps) => {
     };
 
     useEffect(() => {
-        if (userId === 0) {
-            setIsMyProfile(true);
+        console.log('userInfo', userInfo);
+        if (userInfo) {
+            setForm({
+                userSq: `${userInfo.userSq}`,
+                userNm: userInfo.userNm,
+                userMsg: userInfo.userMsg || '',
+            });
+            setProfileImg(
+                userInfo.userSq === targetUserId ? MY_IMAGE : WINTER_IMAGE,
+            );
+            setProfileImage(
+                userInfo.userSq === targetUserId ? MY_IMAGE : WINTER_IMAGE,
+            );
+            setIsMyProfile(userInfo.userSq === targetUserId ? true : false);
         }
-        setProfileImg(userId === 0 ? MY_IMAGE : WINTER_IMAGE);
-        setProfileImage(userId === 0 ? MY_IMAGE : WINTER_IMAGE);
 
         return () => {
             setIsMyProfile(false);
         };
-    }, [userId]);
+    }, [targetUserId, userInfo]);
+
+    const handleSubmit = async () => {
+        console.log('1');
+        try {
+            console.log('2');
+            const response = await axios.all([
+                await fetchUpdateStatusName({
+                    userSq: form.userSq,
+                    userNm: form.userNm,
+                }),
+                await fetchUpdateStatusMessage({
+                    userSq: form.userSq,
+                    userMsg: form.userMsg,
+                }),
+            ]);
+            console.log('3');
+            console.log('response', response);
+        } catch (error) {}
+    };
 
     return (
         <>
@@ -55,12 +94,13 @@ const Profile = ({ onViewFullImage, userId }: ProfileProps) => {
                 isUpdateMode={isUpdateMode}
             />
             <ProfileUserInfo
-                userId={userId}
+                targetUserId={targetUserId}
                 form={form}
                 isMyProfile={isMyProfile}
                 isUpdateMode={isUpdateMode}
                 onChangeInput={handleChangeInput}
                 onUpdateMode={handleUpdateMode}
+                onSubmit={handleSubmit}
             />
         </>
     );

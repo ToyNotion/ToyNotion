@@ -32,7 +32,7 @@ const LoginTemplate = () => {
         //비밀번호와 비밀번호 확인이 맞다면 api 요청
         if (isCorrectEmail && !onCheckNullData(loginForm)) {
             try {
-                const response = await fetchLogin('user/signIn', loginForm);
+                const response = await fetchLogin(loginForm);
                 if (response.data.success) {
                     cookies.set('accessToken', response.data.data);
                     trueAuth();

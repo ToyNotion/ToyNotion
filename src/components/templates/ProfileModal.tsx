@@ -6,12 +6,16 @@ import {
     modalState,
     userIdState,
 } from '../../modules/recoilAtoms/modalAtom';
+import {
+    userInfoState,
+    UserInfoTypes,
+} from '../../modules/recoilAtoms/userInfoAtom';
 import Profile from '../organisms/Profile';
 
 const ProfileModal = () => {
     const [onModal, setOnModal] = useRecoilState<boolean>(modalState);
     const [isViewImage, setIsViewImage] = useState<boolean>(false);
-    const userId = useRecoilValue<number | null>(userIdState);
+    const userInfo = useRecoilValue<UserInfoTypes | null>(userInfoState);
     const fullImg = useRecoilValue<string | null>(fullImage);
     const resetFullImg = useResetRecoilState(fullImage);
     const handleMountModal = useCallback(() => {
@@ -38,7 +42,7 @@ const ProfileModal = () => {
                     <Wrapper>
                         <Profile
                             onViewFullImage={handleViewFullImage}
-                            userId={userId}
+                            userInfo={userInfo}
                         />
                     </Wrapper>
                 </>

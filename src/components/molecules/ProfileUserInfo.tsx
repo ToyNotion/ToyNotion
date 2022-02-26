@@ -6,21 +6,23 @@ import DefaultText from '../atoms/DefaultText';
 import { userInfoForm } from '../organisms/Profile';
 
 interface ProfileProps {
-    userId: number | null;
+    targetUserId: number | null;
     isUpdateMode: boolean;
     isMyProfile: boolean;
     onUpdateMode: () => void;
     onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     form: userInfoForm;
+    onSubmit: () => void;
 }
 
 const ProfileUserInfo = ({
-    userId,
+    targetUserId,
     isMyProfile,
     isUpdateMode,
     onChangeInput,
     onUpdateMode,
     form,
+    onSubmit,
 }: ProfileProps) => {
     const nameInputRef = useRef<any>();
 
@@ -34,22 +36,22 @@ const ProfileUserInfo = ({
                 <>
                     <NameInput
                         type={'text'}
-                        name={'name'}
-                        value={form.name}
+                        name={'userNm'}
+                        value={form.userNm}
                         onChange={onChangeInput}
                         ref={nameInputRef}
                     />
                     <StatusMessageInput
                         type={'text'}
-                        name={'statusMessage'}
+                        name={'userMsg'}
                         onChange={onChangeInput}
-                        value={form.statusMessage}
+                        value={form.userMsg}
                     />
                 </>
             ) : (
                 <>
-                    <Name text={form.name} bold color="black" size="large" />
-                    <StatusMessage text={form.statusMessage} color="black" />
+                    <Name text={form.userNm} bold color="black" size="large" />
+                    <StatusMessage text={form.userMsg} color="black" />
                 </>
             )}
 
@@ -63,7 +65,13 @@ const ProfileUserInfo = ({
                             : '1:1 대화하기'
                     }
                     backgroundColor={isMyProfile ? 'mint' : 'violet'}
-                    onClick={isMyProfile ? onUpdateMode : () => {}}
+                    onClick={
+                        isMyProfile
+                            ? isUpdateMode
+                                ? onSubmit
+                                : onUpdateMode
+                            : () => {}
+                    }
                 />
             </ChatButton>
         </UserInfo>

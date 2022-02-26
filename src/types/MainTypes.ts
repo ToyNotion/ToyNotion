@@ -1,5 +1,5 @@
 export type ChatStatusTypes = {
     name: string;
-    userid: number;
+    targetUserId: number | null;
     statusMessage: string;
 };
