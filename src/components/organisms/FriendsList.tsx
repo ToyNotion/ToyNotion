@@ -8,7 +8,7 @@ import ChatStateRow from '../molecules/ChatStateRow';
 const FriendsList = () => {
     return (
         <Wrapper>
-            {[...Array(5000)].map((item, index) => (
+            {[...Array(50)].map((item, index) => (
                 <ChatStateRow
                     key={index}
                     name={`친구 ${index + 1}`}

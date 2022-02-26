@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { modalState, userIdState } from '../../modules/recoilAtoms/modalAtom';
+import SocketTest from './SocketTest';
 
 const Modal = () => {
     const [onModal, setOnModal] = useRecoilState<boolean>(modalState);
@@ -13,7 +14,10 @@ const Modal = () => {
     return (
         <Container isView={onModal}>
             <Background onClick={handleMountModal} />
-            <Wrapper>{userId}</Wrapper>
+            <Wrapper>
+                {userId}
+                <SocketTest />
+            </Wrapper>
         </Container>
     );
 };
