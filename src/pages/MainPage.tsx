@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import DockBar from '../components/organisms/DockBar';
 import Header from '../components/organisms/Header';
@@ -14,7 +14,6 @@ import useLogout from '../hooks/useLogout';
 import { modalState } from '../modules/recoilAtoms/modalAtom';
 
 const MainPage = () => {
-    const location = useLocation();
     const params = useParams();
     const { menu } = params;
     const { checkAccessToken } = useCheckToken();
@@ -30,7 +29,7 @@ const MainPage = () => {
 
     const renderComponent = () => {
         switch (menu) {
-            case '':
+            case undefined:
                 return <HomeTemplate />;
             case 'chat':
                 return <ChatTemplate />;
@@ -40,7 +39,7 @@ const MainPage = () => {
                 return <MypageTemplate />;
 
             default:
-                return <HomeTemplate />;
+                return null;
         }
     };
 
