@@ -54,10 +54,6 @@ const MainHeader = () => {
         }
     };
     const testAuthorization = async () => {
-        // const refreshKey = cookies.get('refreshKey');
-        // console.log(refreshKey);
-        // const data = { refreshTokenKey: refreshKey };
-        // console.log(data);
         try {
             const response = await client.get('user/vaildToken');
             console.log('response', response);

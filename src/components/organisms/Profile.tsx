@@ -34,8 +34,6 @@ const Profile = ({ onViewFullImage, userId }: ProfileProps) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
     };
-    //풀화면으로 보여줄 이미지 업데이트
-    // useEffect(() => {}, [isMyProfile]);
 
     useEffect(() => {
         if (userId === 0) {
@@ -48,9 +46,14 @@ const Profile = ({ onViewFullImage, userId }: ProfileProps) => {
             setIsMyProfile(false);
         };
     }, [userId]);
+
     return (
         <>
-            <ProfileImage profileImg={profileImg} onClick={onViewFullImage} />
+            <ProfileImage
+                profileImg={profileImg}
+                onClick={onViewFullImage}
+                isUpdateMode={isUpdateMode}
+            />
             <ProfileUserInfo
                 userId={userId}
                 form={form}

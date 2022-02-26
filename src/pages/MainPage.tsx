@@ -21,7 +21,7 @@ const MainPage = () => {
     const onModal = useRecoilValue(modalState);
 
     useEffect(() => {
-        // checkAccessToken();
+        checkAccessToken();
         return () => {
             onLogout();
         };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { client } from '../api';
 import { fetchUserCheck } from '../api/auth';
 import useCorrectAuth from './useCorrectAuth';
 import useLogout from './useLogout';
@@ -9,15 +8,13 @@ import useLogout from './useLogout';
 const useCheckToken = () => {
     const location = useLocation();
     const cookies = new Cookies();
-    const accessToken = cookies.get('accessToken');
     const { onLogout } = useLogout();
     const { trueAuth } = useCorrectAuth();
 
+    const accessToken = cookies.get('accessToken');
+
     const checkAccessToken = async () => {
-        if (accessToken) {
-            client.defaults.headers.common[
-                'Authorization'
-            ] = `Bearer ${accessToken}`;
+        if (accessToken && accessToken !== undefined) {
             try {
                 const response = await fetchUserCheck('user/vaildToken');
                 if (response.data.success && location.pathname === '/') {
@@ -25,9 +22,9 @@ const useCheckToken = () => {
                 }
             } catch (e) {
                 console.log(e);
+                alert('다시 로그인 해주세요.');
+                onLogout();
             }
-        } else {
-            onLogout();
         }
     };
     return { checkAccessToken };

@@ -22,8 +22,6 @@ const DefaultButton = ({
             onClick={onClick}
             value={text}
         />
-        //     {text}
-        // </StyledBox>
     );
 };
 

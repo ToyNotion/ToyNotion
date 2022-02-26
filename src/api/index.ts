@@ -3,21 +3,24 @@ import Cookie from 'universal-cookie';
 
 export const client = axios.create({
     baseURL: 'http://localhost:8080/',
-    // headers: {
-    //     'Content-Type': 'application/json',
-    // },
+    headers: {
+        'Content-Type': 'application/json',
+    },
     withCredentials: true,
 });
 
 const cookies = new Cookie();
+
 client.interceptors.request.use(
     function (config) {
         const accessToken = cookies.get('accessToken');
-
-        if (config && accessToken) {
-            client.defaults.headers.common[
-                'Authorization'
-            ] = `Bearer ${accessToken}`;
+        console.log('config', config);
+        console.log('accessToken', accessToken);
+        if (config && accessToken !== undefined) {
+            config.headers = {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+            };
         }
 
         return config;
