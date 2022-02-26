@@ -1,37 +1,45 @@
-import React, { useCallback, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { colors } from '../../constant/colors';
-import { modalState, userIdState } from '../../modules/recoilAtoms/modalAtom';
-import BackgroundImage from '../atoms/BackgroundImage';
-import ProfileUserInfo from '../molecules/ProfileUserInfo';
-import winter from './겨울.jpg';
+import {
+    fullImage,
+    modalState,
+    userIdState,
+} from '../../modules/recoilAtoms/modalAtom';
+import Profile from '../organisms/Profile';
 
 const ProfileModal = () => {
     const [onModal, setOnModal] = useRecoilState<boolean>(modalState);
     const [isViewImage, setIsViewImage] = useState<boolean>(false);
     const userId = useRecoilValue<number | null>(userIdState);
+    const fullImg = useRecoilValue<string | null>(fullImage);
+    const resetFullImg = useResetRecoilState(fullImage);
     const handleMountModal = useCallback(() => {
         setOnModal(false);
     }, [setOnModal]);
 
-    const onViewFullImage = () => {
+    const handleViewFullImage = () => {
         setIsViewImage((isViewImage) => !isViewImage);
     };
+
+    useEffect(() => {
+        return () => {
+            resetFullImg();
+        };
+    }, []);
 
     return (
         <Container isView={onModal}>
             {isViewImage ? (
-                <FullImage image={winter} onClick={onViewFullImage} />
+                <FullImage image={fullImg} onClick={handleViewFullImage} />
             ) : (
                 <>
                     <Background onClick={handleMountModal} />
                     <Wrapper>
-                        <BackgroundImage
-                            backgroundImg={winter}
-                            onViewFullImage={onViewFullImage}
+                        <Profile
+                            onViewFullImage={handleViewFullImage}
+                            userId={userId}
                         />
-                        <ProfileUserInfo userId={userId} />
                     </Wrapper>
                 </>
             )}

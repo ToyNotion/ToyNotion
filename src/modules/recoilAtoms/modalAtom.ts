@@ -8,3 +8,7 @@ export const userIdState = atom<null | number>({
     key: 'userIdState',
     default: null,
 });
+export const fullImage = atom<null | string>({
+    key: 'fullImage',
+    default: null,
+});

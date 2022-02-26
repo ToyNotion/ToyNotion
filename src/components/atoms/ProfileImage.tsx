@@ -2,18 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface BackgroundImageProps {
-    backgroundImg: string | null;
-    onViewFullImage: () => void;
+    profileImg: string | null;
+    onClick: () => void;
 }
 
-const BackgroundImage = ({
-    backgroundImg,
-    onViewFullImage,
-}: BackgroundImageProps) => {
-    return <ImageWrapper image={backgroundImg} onClick={onViewFullImage} />;
+const ProfileImage = ({ profileImg, onClick }: BackgroundImageProps) => {
+    return <ImageWrapper image={profileImg} onClick={onClick} />;
 };
 
-export default BackgroundImage;
+export default ProfileImage;
 
 const ImageWrapper = styled.div<{ image: string | null }>`
     display: flex;

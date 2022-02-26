@@ -6,7 +6,7 @@ type SizesType = 'small' | 'medium' | 'large';
 type ColorsType = 'white' | 'navy' | 'black' | 'red' | 'gray';
 
 interface LocalProps {
-    text: string;
+    text: string | undefined;
     bold?: boolean;
     size?: SizesType;
     color?: ColorsType;

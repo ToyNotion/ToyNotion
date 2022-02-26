@@ -23,8 +23,9 @@ const LoginTemplate = () => {
         navigate('/join');
     };
 
-    const onSubmit = async () => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         //입력한 비밀번호가 서로 맞는지 체크
+        e.preventDefault();
         const isCorrectEmail = validateEmail(loginForm.userId);
         //비밀번호와 비밀번호 확인이 맞다면 api 요청
         if (isCorrectEmail && !onCheckNullData(loginForm)) {
@@ -45,21 +46,23 @@ const LoginTemplate = () => {
     };
     return (
         <Container>
-            <LoginBlock>
-                <LoginInputRows state={loginForm} onChange={onChanger} />
-            </LoginBlock>
-            <ButtonBlock>
-                <DefaultButton
-                    text="로그인"
-                    backgroundColor="violet"
-                    onClick={onSubmit}
-                />
-                <DefaultButton
-                    text="회원가입"
-                    backgroundColor="gray"
-                    onClick={goJoin}
-                />
-            </ButtonBlock>
+            <form onSubmit={onSubmit}>
+                <LoginBlock>
+                    <LoginInputRows state={loginForm} onChange={onChanger} />
+                </LoginBlock>
+                <ButtonBlock>
+                    <DefaultButton
+                        type="submit"
+                        text="로그인"
+                        backgroundColor="violet"
+                    />
+                    <DefaultButton
+                        text="회원가입"
+                        backgroundColor="gray"
+                        onClick={goJoin}
+                    />
+                </ButtonBlock>
+            </form>
         </Container>
     );
 };
@@ -90,3 +93,5 @@ const ButtonBlock = styled.div`
     width: 100%;
     /* margin-top: 4rem; */
 `;
+
+const SubmitInput = styled.input``;

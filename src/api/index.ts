@@ -37,9 +37,9 @@ client.interceptors.response.use(
             if (config.config.url === 'user/signIn') {
                 cookies.set('accessToken', config.data.data);
             }
-            console.log(window.location.href);
-            console.log(JSON.stringify(config.config.url)?.trim() === '');
-            console.log(config);
+            // console.log(window.location.href);
+            // console.log(JSON.stringify(config.config.url)?.trim() === '');
+            // console.log(config);
         }
         return config;
     },
@@ -63,9 +63,9 @@ client.interceptors.response.use(
                     });
             } catch (error) {
                 console.log(error);
-                window.location.href = '/';
-                cookies.remove('accessToken');
-                cookies.remove('refreshKey');
+                // window.location.href = '/';
+                // cookies.remove('accessToken');
+                // cookies.remove('refreshKey');
             }
         }
 

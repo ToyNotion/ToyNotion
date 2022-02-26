@@ -49,7 +49,8 @@ const JoinTemplate = () => {
         }
     };
 
-    const onSubmit = async () => {
+    const onSubmit = async (e: React.FocusEvent<HTMLFormElement>) => {
+        e.preventDefault();
         //입력한 비밀번호가 서로 맞는지 체크
         const didCorrectPW =
             state.userPwdCheck &&
@@ -129,31 +130,33 @@ const JoinTemplate = () => {
 
     return (
         <Container>
-            {!isPossible && viewMessage !== '' && (
-                <Wrapper>
-                    <DefaultText text={viewMessage} color="red" />
-                </Wrapper>
-            )}
-            <JoinInputRows
-                onChanger={onChanger}
-                state={state}
-                isPossible={isPossible}
-                setIsPossible={setIsPossible}
-                onCheckId={onCheckId}
-                inputRef={inputRef}
-            />
-            <SubmitBlock>
-                <DefaultButton
-                    text="가입하기"
-                    backgroundColor="violet"
-                    onClick={onSubmit}
+            <form onSubmit={onSubmit}>
+                {!isPossible && viewMessage !== '' && (
+                    <Wrapper>
+                        <DefaultText text={viewMessage} color="red" />
+                    </Wrapper>
+                )}
+                <JoinInputRows
+                    onChanger={onChanger}
+                    state={state}
+                    isPossible={isPossible}
+                    setIsPossible={setIsPossible}
+                    onCheckId={onCheckId}
+                    inputRef={inputRef}
                 />
-                <DefaultButton
-                    text="취소"
-                    backgroundColor="gray"
-                    onClick={onCancle}
-                />
-            </SubmitBlock>
+                <SubmitBlock>
+                    <DefaultButton
+                        type="submit"
+                        text="가입하기"
+                        backgroundColor="violet"
+                    />
+                    <DefaultButton
+                        text="취소"
+                        backgroundColor="gray"
+                        onClick={onCancle}
+                    />
+                </SubmitBlock>
+            </form>
         </Container>
     );
 };

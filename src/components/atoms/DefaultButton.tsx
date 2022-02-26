@@ -4,23 +4,34 @@ import { colors } from '../../constant/colors';
 
 type color = 'gray' | 'mint' | 'violet';
 interface LocalProps {
+    type?: 'button' | 'submit';
     text: string;
     onClick?: () => void;
     backgroundColor: color;
 }
-const DefaultButton = ({ backgroundColor, onClick, text }: LocalProps) => {
+const DefaultButton = ({
+    backgroundColor,
+    onClick,
+    text,
+    type = 'button',
+}: LocalProps) => {
     return (
-        <StyledBox backgroundColor={backgroundColor} onClick={onClick}>
-            {text}
-        </StyledBox>
+        <StyledBox
+            type={type}
+            backgroundColor={backgroundColor}
+            onClick={onClick}
+            value={text}
+        />
+        //     {text}
+        // </StyledBox>
     );
 };
 
 export default DefaultButton;
 
-const StyledBox = styled.div<{ backgroundColor: color }>`
+const StyledBox = styled.input<{ backgroundColor: color }>`
     display: flex;
-    /* width: 100%; */
+    width: 100%;
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -30,4 +41,6 @@ const StyledBox = styled.div<{ backgroundColor: color }>`
     color: ${(props) =>
         props.backgroundColor === 'gray' ? colors.black : colors.white};
     cursor: pointer;
+    border: none;
+    outline: none;
 `;
