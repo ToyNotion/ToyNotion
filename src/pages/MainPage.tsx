@@ -6,7 +6,7 @@ import DockBar from '../components/organisms/DockBar';
 import Header from '../components/organisms/Header';
 import ChatTemplate from '../components/templates/ChatTemplate';
 import HomeTemplate from '../components/templates/HomeTemplate';
-import Modal from '../components/templates/Modal';
+import ProfileModal from '../components/templates/ProfileModal';
 import MypageTemplate from '../components/templates/MypageTemplate';
 import SearchTemplate from '../components/templates/SearchTemplate';
 import useCheckToken from '../hooks/useCheckToken';
@@ -46,7 +46,7 @@ const MainPage = () => {
     return (
         <>
             <Container>
-                {onModal && <Modal />}
+                {onModal && <ProfileModal />}
                 <Header />
                 {renderComponent()}
                 <DockBar />
